@@ -23,6 +23,7 @@ import com.dds.webrtclib.ProxyVideoSink;
 import com.dds.webrtclib.R;
 import com.dds.webrtclib.WebRTCManager;
 import com.dds.webrtclib.bean.MediaType;
+import com.dds.webrtclib.bean.MeetingMsg;
 import com.dds.webrtclib.bean.MemberBean;
 import com.dds.webrtclib.utils.PermissionUtil;
 
@@ -147,9 +148,8 @@ public class ChatRoomActivity extends AppCompatActivity implements IViewCallback
     }
 
     @Override
-    public void onReceiverMsg(String msg) {
-        if (msg == null) {
-
+    public void onReceiverMsg(MeetingMsg meetingMsg) {
+        if (meetingMsg == null) {
         }
     }
 

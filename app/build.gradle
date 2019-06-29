@@ -62,6 +62,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     implementation project(path: ':AndroidRTC')
+//    implementation 'com.github.sinothk.AndroidRTC:AndroidRTC:1.0.0629'
 
     // 1
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'

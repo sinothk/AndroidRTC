@@ -23,6 +23,7 @@ import com.dds.webrtclib.ProxyVideoSink;
 import com.dds.webrtclib.R;
 import com.dds.webrtclib.WebRTCManager;
 import com.dds.webrtclib.bean.MediaType;
+import com.dds.webrtclib.bean.MeetingMsg;
 import com.dds.webrtclib.utils.PermissionUtil;
 
 import org.webrtc.EglBase;
@@ -208,8 +209,7 @@ public class ChatSingleActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onReceiverMsg(String msg) {
-
+            public void onReceiverMsg(MeetingMsg meetingMsg) {
             }
         });
         if (!PermissionUtil.isNeedRequestPermission(ChatSingleActivity.this)) {

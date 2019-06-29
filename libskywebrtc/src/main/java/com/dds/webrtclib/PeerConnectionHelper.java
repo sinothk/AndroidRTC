@@ -6,7 +6,9 @@ import android.media.AudioManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 import com.dds.webrtclib.bean.MediaType;
+import com.dds.webrtclib.bean.MeetingMsg;
 import com.dds.webrtclib.bean.MyIceServer;
 import com.dds.webrtclib.ws.IWebSocket;
 
@@ -220,7 +222,8 @@ public class PeerConnectionHelper {
 //        });
 
         if (viewCallback != null) {
-            viewCallback.onReceiverMsg(msg);
+            MeetingMsg meetingMsg = JSON.parseObject(msg, MeetingMsg.class);
+            viewCallback.onReceiverMsg(meetingMsg);
         }
     }
 

@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
 import com.dds.webrtclib.IViewCallback;
 import com.dds.webrtclib.WebRTCManager;
 import com.dds.webrtclib.bean.ChatType;
@@ -133,8 +132,7 @@ public class HomeDemoActivity extends AppCompatActivity implements IViewCallback
 
     // 接收消息部分
     @Override
-    public void onReceiverMsg(String msg) {
-        MeetingMsg meetingMsg = JSON.parseObject(msg, MeetingMsg.class);
+    public void onReceiverMsg(MeetingMsg meetingMsg) {
 
         if (meetingMsg.getChatType() == ChatType.MEETING) {
             if (meetingMsg.getMsgType() == MsgType.MEET_REQUEST) {
