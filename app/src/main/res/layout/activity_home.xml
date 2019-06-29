@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true">
+
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:showIn="@layout/activity_main">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:onClick="doReconnect"
+            android:text="重连" />
+
+        <EditText
+            android:id="@+id/roomId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="房间Id"
+            android:text="200" />
+
+        <Button
+            android:id="@+id/sendVBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="joinRoom"
+            android:text="手动加入房间" />
+
+        <EditText
+            android:id="@+id/targetId_id_v"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="视频对象ID"
+            android:text="6453" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="joinRoomByTip"
+            android:text="提醒加入房间" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:onClick="joinSingleVideo"
+            android:text="提醒一对一视频" />
+
+    </LinearLayout>
+
+</ScrollView>
+
+
+

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:showIn="@layout/activity_main">
+
+
+        <EditText
+            android:id="@+id/et_signal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="server地址(wss://)" />
+
+        <EditText
+            android:id="@+id/et_port"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="端口" />
+
+        <EditText
+            android:id="@+id/et_room"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="房间号(123456)" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:onClick="JoinRoom"
+            android:text="加入房间"
+            tools:ignore="OnClick" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:onClick="JoinRoomSingleVideo"
+            android:text="一对一视频聊天"
+            tools:ignore="OnClick" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:onClick="JoinRoomSingleAudio"
+            android:text="一对一语音聊天"
+            tools:ignore="OnClick" />
+
+        <EditText
+            android:id="@+id/et_wss"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="wss://118.192.68.107:4436" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:onClick="wss"
+            android:text="wss测试"
+            tools:ignore="OnClick" />
+
+        <Button
+            android:id="@+id/setId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:onClick="setId"
+            android:text="设置账号" />
+
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:onClick="call001"
+            android:text="呼叫001" />
+
+    </LinearLayout>
+
+</ScrollView>
+
+
+
