@@ -93,7 +93,7 @@ public class JavaWebSocket implements IWebSocket {
     private void handleMsg(String message) {
         try {
             events.onReceiverMsg(message);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -259,21 +259,21 @@ public class JavaWebSocket implements IWebSocket {
 //        JSONObject object = new JSONObject(map);
 //        String jsonString = object.toString();
 //        Log.d(TAG, "send-->" + jsonString);
-//
 //        mWebSocketClient.send(jsonString);
 
-        HashMap<String, Object> childMap = new HashMap();
+        HashMap<String, Object> childMap = new HashMap<>();
         childMap.put("id", iceCandidate.sdpMid);
         childMap.put("label", iceCandidate.sdpMLineIndex);
         childMap.put("candidate", iceCandidate.sdp);
+//        childMap.put("candidatePC", iceCandidate);
         childMap.put("socketId", socketId);
-        HashMap<String, Object> map = new HashMap();
+
+        HashMap<String, Object> map = new HashMap<>();
         map.put("eventName", "__ice_candidate");
         map.put("data", childMap);
         JSONObject object = new JSONObject(map);
         String jsonString = object.toString();
         Log.d(TAG, "send-->" + jsonString);
-
         mWebSocketClient.send(jsonString);
     }
 
@@ -335,16 +335,26 @@ public class JavaWebSocket implements IWebSocket {
 
     // 处理交换信息
     private void handleRemoteCandidate(Map map) {
-        Map data = (Map) map.get("data");
-        String socketId;
-        if (data != null) {
-            socketId = (String) data.get("socketId");
-            String sdpMid = (String) data.get("id");
-            sdpMid = (null == sdpMid) ? "video" : sdpMid;
-            int sdpMLineIndex = (int) Double.parseDouble(String.valueOf(data.get("label")));
-            String candidate = (String) data.get("candidate");
-            IceCandidate iceCandidate = new IceCandidate(sdpMid, sdpMLineIndex, candidate);
-            events.onRemoteIceCandidate(socketId, iceCandidate);
+
+        try {
+
+            Map data = (Map) map.get("data");
+            String socketId;
+            if (data != null) {
+
+                socketId = data.get("socketId") + "";
+                String sdpMid = data.get("id") + "";
+                sdpMid = (null == sdpMid) ? "video" : sdpMid;
+
+                int sdpMLineIndex = (int) Double.parseDouble(String.valueOf(data.get("label")));
+                String candidate = (String) data.get("candidate");
+                IceCandidate iceCandidate = new IceCandidate(sdpMid, sdpMLineIndex, candidate);
+
+                events.onRemoteIceCandidate(socketId, iceCandidate);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
 
@@ -380,7 +390,7 @@ public class JavaWebSocket implements IWebSocket {
         Map sdpDic;
         if (data != null) {
             sdpDic = (Map) data.get("sdp");
-            String socketId = (String) data.get("socketId");
+            String socketId = String.valueOf(data.get("socketId"));
             String sdp = (String) sdpDic.get("sdp");
             events.onReceiverAnswer(socketId, sdp);
         }

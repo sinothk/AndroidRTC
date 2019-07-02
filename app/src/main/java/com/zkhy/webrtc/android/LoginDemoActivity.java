@@ -47,11 +47,16 @@ public class LoginDemoActivity extends AppCompatActivity {
         Constant.url = et_signal.getText().toString() + ":" + et_port.getText().toString().trim();
         Constant.userId = etId.getText().toString();
 
+//        Constant.iceServers = new MyIceServer[]{
+//                // new MyIceServer("stun:stun.l.google.com:19302"),
+//                new MyIceServer("stun:47.254.34.146:3478"),
+//                new MyIceServer("turn:47.254.34.146?transport=tcp", "dds", "123456"),
+//                new MyIceServer("turn:47.254.34.146:3478", "dds", "123456"),
+//        };
+
         Constant.iceServers = new MyIceServer[]{
                 // new MyIceServer("stun:stun.l.google.com:19302"),
-                new MyIceServer("stun:47.254.34.146:3478"),
-                new MyIceServer("turn:47.254.34.146?transport=tcp", "dds", "123456"),
-                new MyIceServer("turn:47.254.34.146:3478", "dds", "123456"),
+                new MyIceServer("turn:47.106.221.149:3478", "wz", "123456"),
         };
 
         WebRTCManager.getInstance().init(Constant.url, Constant.iceServers, new IConnectEvent() {
