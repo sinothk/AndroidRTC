@@ -74,6 +74,8 @@ public class HomeDemoActivity extends AppCompatActivity implements IViewCallback
         WebRTCManager.getInstance().init(wss, Constant.iceServers, new IConnectEvent() {
             @Override
             public void onSuccess() {
+                initUserInfo();
+
                 ChatRoomActivity.openActivity(HomeDemoActivity.this);
             }
 
@@ -206,6 +208,9 @@ public class HomeDemoActivity extends AppCompatActivity implements IViewCallback
     }
 
     private void initWebRtc() {
+
+        String roomId = roomIdEt.getText().toString().trim();
+
         WebRTCManager.getInstance().init(Constant.url, Constant.iceServers, new IConnectEvent() {
             @Override
             public void onSuccess() {
@@ -231,6 +236,8 @@ public class HomeDemoActivity extends AppCompatActivity implements IViewCallback
 
         MeetingContent meetingContent = new MeetingContent();
         meetingContent.setId(Constant.userId);
+        meetingContent.setName("固定001");
+        meetingContent.setPhoto("https://pics3.baidu.com/feed/5243fbf2b2119313d19c34748d1912d290238d3a.jpeg?token=a57fa0ed50a8eacbd825572052c6fe4b&s=AA9310C5145A87D01210A59603007002");
         meetingMsg.setData(meetingContent);
 
         WebRTCManager.getInstance().sendMsg(meetingMsg);
