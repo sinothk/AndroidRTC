@@ -86,7 +86,7 @@ public class VoiLoadingActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onReceiverMsg(MeetingMsg meetingMsg) {
+            public void onReceiverMsg(MeetingMsg<MeetingContent> meetingMsg) {
                 Log.e("onReceiverMsg", "VoiLoadingActivity.onReceiverMsg(String msg) => " + meetingMsg);
 
                 if (meetingMsg.getMsgType() == MsgType.MEET_RESPONSE) {

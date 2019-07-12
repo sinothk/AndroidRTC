@@ -11,8 +11,15 @@ package com.dds.webrtclib.bean;
 public class MeetingContent {
 
     private String id;
+    private String name;
+    private String photo;
+    //
     private String msg;
+
+    // room
     private String roomId;
+    private String roomName;
+    private String room;
 
     private boolean received;
 
@@ -46,5 +53,37 @@ public class MeetingContent {
 
     public void setReceived(boolean received) {
         this.received = received;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
+    }
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
     }
 }

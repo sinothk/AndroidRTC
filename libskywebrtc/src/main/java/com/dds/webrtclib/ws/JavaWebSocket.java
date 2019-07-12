@@ -43,6 +43,7 @@ public class JavaWebSocket implements IWebSocket {
         mWebSocketClient.send(JSON.toJSONString(meetingMsg));
     }
 
+    @Deprecated
     @Override
     public void sendId(String sendId) {
         MeetingMsg meetingMsg = new MeetingMsg();

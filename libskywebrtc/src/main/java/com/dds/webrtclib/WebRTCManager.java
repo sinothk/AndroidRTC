@@ -288,6 +288,7 @@ public class WebRTCManager implements ISignalingEvents {
         }
     }
 
+    @Deprecated
     public void sendId(String sendId) {
         try {
             _webSocket.sendId(sendId);

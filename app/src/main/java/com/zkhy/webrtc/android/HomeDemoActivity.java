@@ -132,7 +132,7 @@ public class HomeDemoActivity extends AppCompatActivity implements IViewCallback
 
     // 接收消息部分
     @Override
-    public void onReceiverMsg(MeetingMsg meetingMsg) {
+    public void onReceiverMsg(MeetingMsg<MeetingContent> meetingMsg) {
 
         if (meetingMsg.getChatType() == ChatType.MEETING) {
             if (meetingMsg.getMsgType() == MsgType.MEET_REQUEST) {
@@ -185,7 +185,7 @@ public class HomeDemoActivity extends AppCompatActivity implements IViewCallback
 
     private void callBack(WebRTCManager manager, MeetingMsg meetingMsg, boolean status) {
 
-        MeetingMsg msgBack = new MeetingMsg();
+        MeetingMsg<MeetingContent> msgBack = new MeetingMsg<>();
         msgBack.setEventName("NOTICE");
         msgBack.setServerFunc("sayHello");
         msgBack.setClientFunc("retHello");
@@ -209,7 +209,7 @@ public class HomeDemoActivity extends AppCompatActivity implements IViewCallback
         WebRTCManager.getInstance().init(Constant.url, Constant.iceServers, new IConnectEvent() {
             @Override
             public void onSuccess() {
-                WebRTCManager.getInstance().sendId(Constant.userId);
+                initUserInfo();
             }
 
             @Override
@@ -222,5 +222,18 @@ public class HomeDemoActivity extends AppCompatActivity implements IViewCallback
 
         WebRTCManager.getInstance().connect();
         WebRTCManager.getInstance().setCallback(this);
+    }
+
+    private void initUserInfo() {
+
+        MeetingMsg<MeetingContent> meetingMsg = new MeetingMsg<>();
+        meetingMsg.setEventName("__joinUser");
+
+        MeetingContent meetingContent = new MeetingContent();
+        meetingContent.setId(Constant.userId);
+        meetingMsg.setData(meetingContent);
+
+        WebRTCManager.getInstance().sendMsg(meetingMsg);
+
     }
 }

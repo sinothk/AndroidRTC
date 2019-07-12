@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import com.dds.webrtclib.WebRTCManager;
 import com.dds.webrtclib.bean.Constant;
+import com.dds.webrtclib.bean.MeetingContent;
+import com.dds.webrtclib.bean.MeetingMsg;
 import com.dds.webrtclib.bean.MyIceServer;
 import com.dds.webrtclib.ws.IConnectEvent;
 
@@ -62,7 +64,7 @@ public class LoginDemoActivity extends AppCompatActivity {
         WebRTCManager.getInstance().init(Constant.url, Constant.iceServers, new IConnectEvent() {
             @Override
             public void onSuccess() {
-                WebRTCManager.getInstance().sendId(Constant.userId);
+                initUserInfo();
                 startActivity(new Intent(LoginDemoActivity.this, HomeDemoActivity.class));
             }
 
@@ -75,5 +77,18 @@ public class LoginDemoActivity extends AppCompatActivity {
         });
 
         WebRTCManager.getInstance().connect();
+    }
+
+    private void initUserInfo() {
+
+        MeetingMsg<MeetingContent> meetingMsg = new MeetingMsg<>();
+        meetingMsg.setEventName("__joinUser");
+
+        MeetingContent meetingContent = new MeetingContent();
+        meetingContent.setId(Constant.userId);
+        meetingMsg.setData(meetingContent);
+
+        WebRTCManager.getInstance().sendMsg(meetingMsg);
+
     }
 }

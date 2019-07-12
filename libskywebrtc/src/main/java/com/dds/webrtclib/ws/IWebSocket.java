@@ -31,5 +31,6 @@ public interface IWebSocket {
 
     void sendMsg(MeetingMsg meetingMsg);//String socketId, String sdp
 
+    @Deprecated
     void sendId(String sendId);
 }

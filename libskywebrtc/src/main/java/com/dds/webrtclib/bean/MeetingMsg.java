@@ -8,7 +8,7 @@ package com.dds.webrtclib.bean;
  *  更新:
  * <pre>
  */
-public class MeetingMsg {
+public class MeetingMsg<T> {
     /**
      * eventName : NOTICE
      * serverFunc : sayHello
@@ -27,7 +27,7 @@ public class MeetingMsg {
     private String sendId;
     private String targetIds;
     private ChatType chatType;
-    private MeetingContent data;
+    private T data;
 
     public String getEventName() {
         return eventName;
@@ -69,11 +69,11 @@ public class MeetingMsg {
         this.targetIds = targetIds;
     }
 
-    public MeetingContent getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(MeetingContent data) {
+    public void setData(T data) {
         this.data = data;
     }
 
