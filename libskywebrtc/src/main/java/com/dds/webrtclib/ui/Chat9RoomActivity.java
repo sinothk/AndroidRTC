@@ -8,16 +8,13 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.dds.webrtclib.IViewCallback;
 import com.dds.webrtclib.PeerConnectionHelper;
@@ -44,9 +41,9 @@ import java.util.Map;
  * 群聊界面
  * 支持 9 路同時通信
  */
-public class ChatRoomActivity extends UserListViewActivity implements IViewCallback {
+public class Chat9RoomActivity extends AppCompatActivity implements IViewCallback {
 
-    private FrameLayout wr_video_view, wr_video_view_big;
+    private FrameLayout wr_video_view;
 
     private WebRTCManager manager;
     private Map<String, SurfaceViewRenderer> _videoViews = new HashMap<>();
@@ -63,29 +60,27 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
     public static void openActivity(Activity activity) {
         startType = 0;
 
-        Intent intent = new Intent(activity, ChatRoomActivity.class);
+        Intent intent = new Intent(activity, Chat9RoomActivity.class);
         activity.startActivity(intent);
     }
 
     public static void openActivity(Activity activity, String roomId) {
         startType = 1;
 
-        Intent intent = new Intent(activity, ChatRoomActivity.class);
+        Intent intent = new Intent(activity, Chat9RoomActivity.class);
         intent.putExtra("roomId", roomId);
         activity.startActivity(intent);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
+                | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
         super.onCreate(savedInstanceState);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-//                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-//                | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-//                | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-//        super.onCreate(savedInstanceState);
-//
-//        setContentView(R.layout.wr_activity_chat_room);
+        setContentView(R.layout.wr_activity_chat_9_room);
 
         manager = WebRTCManager.getInstance();
         if (startType == 1) {// 邀请加入时
@@ -106,7 +101,6 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
 
     private void initView() {
         wr_video_view = findViewById(R.id.wr_video_view);
-        wr_video_view_big = findViewById(R.id.wr_video_view_big);
     }
 
     private void initVar() {
@@ -115,14 +109,14 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
         if (manager != null) {
             mScreenWidth = manager.getDefaultDisplay().getWidth();
         }
-        wr_video_view.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mScreenWidth/3));
+        wr_video_view.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mScreenWidth));
         rootEglBase = EglBase.create();
     }
 
     private void startCall() {
         manager.setCallback(this);
 
-        if (!PermissionUtil.isNeedRequestPermission(ChatRoomActivity.this)) {
+        if (!PermissionUtil.isNeedRequestPermission(Chat9RoomActivity.this)) {
             manager.joinRoom(getApplicationContext(), rootEglBase);
         }
     }
@@ -159,11 +153,10 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
     }
 
     private void addView(String id, MediaStream stream) {
-        SurfaceViewRenderer renderer = new SurfaceViewRenderer(ChatRoomActivity.this);
+        SurfaceViewRenderer renderer = new SurfaceViewRenderer(Chat9RoomActivity.this);
         renderer.init(rootEglBase.getEglBaseContext(), null);
         renderer.setScalingType(RendererCommon.ScalingType.SCALE_ASPECT_FIT);
         renderer.setMirror(true);
-
         // set render
         ProxyVideoSink sink = new ProxyVideoSink();
         sink.setTarget(renderer);
@@ -175,40 +168,23 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
         _infos.add(new MemberBean(id));
         wr_video_view.addView(renderer);
 
-        renderer.setOnClickListener(v -> {
-            renderer.setOnClickListener(null);
-
-            wr_video_view.removeView(renderer);
-
-
-            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
-            renderer.setLayoutParams(layoutParams);
-
-            sink.setTarget(renderer);
-            wr_video_view_big.addView(renderer);
-        });
-
-
-        // 添加后，重新计算绘制界面
         int size = _infos.size();
         for (int i = 0; i < size; i++) {
-
             MemberBean memberBean = _infos.get(i);
             SurfaceViewRenderer renderer1 = _videoViews.get(memberBean.getId());
             if (renderer1 != null) {
                 FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
                 layoutParams.height = getWidth(size);
                 layoutParams.width = getWidth(size);
-
                 layoutParams.leftMargin = getX(size, i);
                 layoutParams.topMargin = getY(size, i);
                 renderer1.setLayoutParams(layoutParams);
             }
+
         }
+
+
     }
 
 
@@ -224,8 +200,8 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
         _sinks.remove(userId);
         _videoViews.remove(userId);
         _infos.remove(new MemberBean(userId));
-
         wr_video_view.removeView(renderer);
+
 
         int size = _infos.size();
         for (int i = 0; i < _infos.size(); i++) {
@@ -236,8 +212,8 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 layoutParams.height = getWidth(size);
                 layoutParams.width = getWidth(size);
-//                layoutParams.leftMargin = getX(size, i);
-//                layoutParams.topMargin = getY(size, i);
+                layoutParams.leftMargin = getX(size, i);
+                layoutParams.topMargin = getY(size, i);
                 renderer1.setLayoutParams(layoutParams);
             }
 
@@ -246,14 +222,12 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
     }
 
     private int getWidth(int size) {
-        return mScreenWidth /4;
-
-//        if (size <= 4) {
-//            return mScreenWidth / 2;
-//        } else if (size <= 9) {
-//            return mScreenWidth / 3;
-//        }
-//        return mScreenWidth / 3;
+        if (size <= 4) {
+            return mScreenWidth / 2;
+        } else if (size <= 9) {
+            return mScreenWidth / 3;
+        }
+        return mScreenWidth / 3;
     }
 
     private int getX(int size, int index) {
