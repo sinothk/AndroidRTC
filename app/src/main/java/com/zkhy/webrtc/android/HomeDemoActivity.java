@@ -236,7 +236,7 @@ public class HomeDemoActivity extends AppCompatActivity implements IViewCallback
 
         MeetingContent meetingContent = new MeetingContent();
         meetingContent.setId(Constant.userId);
-        meetingContent.setName("固定001");
+        meetingContent.setName("梁玉涛");
         meetingContent.setPhoto("https://pics3.baidu.com/feed/5243fbf2b2119313d19c34748d1912d290238d3a.jpeg?token=a57fa0ed50a8eacbd825572052c6fe4b&s=AA9310C5145A87D01210A59603007002");
         meetingMsg.setData(meetingContent);
 

@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/ItemImage"
-        android:layout_width="46dp"
-        android:layout_height="46dp"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/icon_hangup" />
 
@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="Title"
+        android:singleLine="true"
         android:textColor="#000000" />
 
     <TextView

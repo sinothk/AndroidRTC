@@ -1,24 +1,17 @@
 package com.dds.webrtclib.ui;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.dds.webrtclib.R;
 import com.dds.webrtclib.bean.MeetingUserEntity;
+import com.dds.webrtclib.bean.MemberBean;
 import com.dds.webrtclib.ui.adapter.MeetingUserAdapter;
 
 import org.webrtc.SurfaceViewRenderer;
@@ -36,9 +29,8 @@ import java.util.Map;
  * <pre>
  */
 public abstract class UserListViewActivity extends AppCompatActivity {
+
     MeetingUserAdapter meetingUserAdapter;
-    List<MeetingUserEntity> cityList;
-    RelativeLayout itmel;
     GridView gridView;
 
     @Override
@@ -52,80 +44,21 @@ public abstract class UserListViewActivity extends AppCompatActivity {
 
         setContentView(R.layout.wr_activity_chat_room);
         gridView = findViewById(R.id.grid);
-
-//        setGridView();
     }
 
-    protected void setUserRendererData(Map<String, SurfaceViewRenderer> videoViews) {
+    protected void setUserRendererData(List<MemberBean> members) {
 
         ArrayList<MeetingUserEntity> meetingUserList = new ArrayList<MeetingUserEntity>();
 
-        for (int i = 0; i < videoViews.size(); i++) {
+        for (int i = 0; i < members.size(); i++) {
             MeetingUserEntity item = new MeetingUserEntity();
-            item.setCityName("深圳" + i);
-            item.setCityCode("0755");
+            item.setCityName(members.get(i).getName());
+            item.setCityCode(members.get(i).getId());
             meetingUserList.add(item);
         }
 
-//        MeetingUserEntity item = new MeetingUserEntity();
-//        item.setCityName("深圳");
-//        item.setCityCode("0755");
-//        meetingUserList.add(item);
-//        item = new MeetingUserEntity();
-//        item.setCityName("上海");
-//        item.setCityCode("021");
-//        meetingUserList.add(item);
-//        item = new MeetingUserEntity();
-//        item.setCityName("广州");
-//        item.setCityCode("020");
-//        meetingUserList.add(item);
-//        item = new MeetingUserEntity();
-//        item.setCityName("北京");
-//        item.setCityCode("010");
-//        meetingUserList.add(item);
-//        item = new MeetingUserEntity();
-//        item.setCityName("武汉");
-//        item.setCityCode("027");
-//        meetingUserList.add(item);
-//        item = new MeetingUserEntity();
-//        item.setCityName("孝感");
-//        item.setCityCode("0712");
-//        meetingUserList.add(item);
-
         setGridView(meetingUserList);
     }
-
-//    /**
-//     * 设置数据
-//     */
-//    private void setData() {
-//        cityList = new ArrayList<MeetingUserEntity>();
-//        MeetingUserEntity item = new MeetingUserEntity();
-//        item.setCityName("深圳");
-//        item.setCityCode("0755");
-//        cityList.add(item);
-//        item = new MeetingUserEntity();
-//        item.setCityName("上海");
-//        item.setCityCode("021");
-//        cityList.add(item);
-//        item = new MeetingUserEntity();
-//        item.setCityName("广州");
-//        item.setCityCode("020");
-//        cityList.add(item);
-//        item = new MeetingUserEntity();
-//        item.setCityName("北京");
-//        item.setCityCode("010");
-//        cityList.add(item);
-//        item = new MeetingUserEntity();
-//        item.setCityName("武汉");
-//        item.setCityCode("027");
-//        cityList.add(item);
-//        item = new MeetingUserEntity();
-//        item.setCityName("孝感");
-//        item.setCityCode("0712");
-//        cityList.add(item);
-//        cityList.addAll(cityList);
-//    }
 
     /**
      * 设置GirdView参数，绑定数据
@@ -149,72 +82,8 @@ public abstract class UserListViewActivity extends AppCompatActivity {
         meetingUserAdapter = new MeetingUserAdapter(getApplicationContext(), cityList);
         gridView.setAdapter(meetingUserAdapter);
 
-        gridView.setOnItemClickListener((parent, view, position, id) -> {
-            setItemClick(position);
-        });
+        gridView.setOnItemClickListener((parent, view, position, id) -> setItemClick(position));
     }
 
     public abstract void setItemClick(int position);
-
-//    /**
-//     * GirdView 数据适配器
-//     */
-//    public class GridViewAdapter extends BaseAdapter {
-//        Context context;
-//        List<MeetingUserEntity> list;
-//
-//        public GridViewAdapter(Context _context, List<MeetingUserEntity> _list) {
-//            this.list = _list;
-//            this.context = _context;
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return list.size();
-//        }
-//
-//        @Override
-//        public Object getItem(int position) {
-//            return list.get(position);
-//        }
-//
-//        @Override
-//        public long getItemId(int position) {
-//            return position;
-//        }
-//
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            LayoutInflater layoutInflater = LayoutInflater.from(context);
-//            convertView = layoutInflater.inflate(R.layout.meeting_user_list_item, null);
-//            TextView tvCity = (TextView) convertView.findViewById(R.id.tvCity);
-//            TextView tvCode = (TextView) convertView.findViewById(R.id.tvCode);
-//            MeetingUserEntity city = list.get(position);
-//
-//            tvCity.setText(city.getCityName());
-//            tvCode.setText(city.getCityCode());
-//            return convertView;
-//        }
-//    }
-
-//    public class MeetingUserEntity {
-//        private String cityName;
-//        private String cityCode;
-//
-//        public String getCityName() {
-//            return cityName;
-//        }
-//
-//        public void setCityName(String cityName) {
-//            this.cityName = cityName;
-//        }
-//
-//        public String getCityCode() {
-//            return cityCode;
-//        }
-//
-//        public void setCityCode(String cityCode) {
-//            this.cityCode = cityCode;
-//        }
-//    }
 }
