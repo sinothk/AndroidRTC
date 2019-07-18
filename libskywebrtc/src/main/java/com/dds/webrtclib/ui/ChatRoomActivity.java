@@ -46,7 +46,7 @@ import java.util.Map;
  */
 public class ChatRoomActivity extends UserListViewActivity implements IViewCallback {
 
-    private FrameLayout wr_video_view, wr_video_view_big;
+    private FrameLayout wr_video_view2, wr_video_view_big;
 
     private WebRTCManager manager;
     private Map<String, SurfaceViewRenderer> _videoViews = new HashMap<>();
@@ -103,9 +103,8 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
         startCall();
     }
 
-
     private void initView() {
-        wr_video_view = findViewById(R.id.wr_video_view);
+//        wr_video_view = findViewById(R.id.wr_video_view);
         wr_video_view_big = findViewById(R.id.wr_video_view_big);
     }
 
@@ -115,7 +114,7 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
         if (manager != null) {
             mScreenWidth = manager.getDefaultDisplay().getWidth();
         }
-        wr_video_view.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mScreenWidth/3));
+//        wr_video_view.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mScreenWidth / 3));
         rootEglBase = EglBase.create();
     }
 
@@ -173,44 +172,47 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
         _videoViews.put(id, renderer);
         _sinks.put(id, sink);
         _infos.add(new MemberBean(id));
-        wr_video_view.addView(renderer);
-
-        renderer.setOnClickListener(v -> {
-            renderer.setOnClickListener(null);
-
-            wr_video_view.removeView(renderer);
-
-
-            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
-            renderer.setLayoutParams(layoutParams);
-
-            sink.setTarget(renderer);
-            wr_video_view_big.addView(renderer);
-        });
-
+//        wr_video_view.addView(renderer);
 
         // 添加后，重新计算绘制界面
         int size = _infos.size();
         for (int i = 0; i < size; i++) {
 
-            MemberBean memberBean = _infos.get(i);
-            SurfaceViewRenderer renderer1 = _videoViews.get(memberBean.getId());
-            if (renderer1 != null) {
-                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            if (i == 0) {
+                MemberBean memberBean = _infos.get(i);
+                SurfaceViewRenderer renderer1 = _videoViews.get(memberBean.getId());
+                if (renderer1 != null) {
+                    FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-                layoutParams.height = getWidth(size);
-                layoutParams.width = getWidth(size);
+//                    layoutParams.height = getWidth(size);
+//                    layoutParams.width = getWidth(size);
+//
+//                    layoutParams.leftMargin = getX(size, i);
+//                    layoutParams.topMargin = getY(size, i);
+                    renderer1.setLayoutParams(layoutParams);
 
-                layoutParams.leftMargin = getX(size, i);
-                layoutParams.topMargin = getY(size, i);
-                renderer1.setLayoutParams(layoutParams);
+                    wr_video_view_big.removeAllViews();
+                    wr_video_view_big.addView(renderer);
+                }
             }
         }
+
+        setUserRendererData(_videoViews);
     }
 
+    @Override
+    public void setItemClick(int position) {
+        MemberBean memberBean = _infos.get(position);
+        SurfaceViewRenderer currRenderer = _videoViews.get(memberBean.getId());
+
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        currRenderer.setLayoutParams(layoutParams);
+
+        wr_video_view_big.removeAllViews();
+        wr_video_view_big.addView(currRenderer);
+    }
 
     private void removeView(String userId) {
         ProxyVideoSink sink = _sinks.get(userId);
@@ -225,28 +227,33 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
         _videoViews.remove(userId);
         _infos.remove(new MemberBean(userId));
 
-        wr_video_view.removeView(renderer);
+        wr_video_view_big.removeView(renderer);
 
         int size = _infos.size();
-        for (int i = 0; i < _infos.size(); i++) {
-            MemberBean memberBean = _infos.get(i);
-            SurfaceViewRenderer renderer1 = _videoViews.get(memberBean.getId());
-            if (renderer1 != null) {
-                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                layoutParams.height = getWidth(size);
-                layoutParams.width = getWidth(size);
+        for (int i = 0; i < size; i++) {
+
+            if (i == 0) {
+                MemberBean memberBean = _infos.get(i);
+                SurfaceViewRenderer renderer1 = _videoViews.get(memberBean.getId());
+                if (renderer1 != null) {
+                    FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//                    layoutParams.height = getWidth(size);
+//                    layoutParams.width = getWidth(size);
 //                layoutParams.leftMargin = getX(size, i);
 //                layoutParams.topMargin = getY(size, i);
-                renderer1.setLayoutParams(layoutParams);
-            }
+                    renderer1.setLayoutParams(layoutParams);
 
+                    wr_video_view_big.removeAllViews();
+                    wr_video_view_big.addView(renderer);
+                }
+            }
         }
 
     }
 
     private int getWidth(int size) {
-        return mScreenWidth /4;
+        return mScreenWidth / 4;
 
 //        if (size <= 4) {
 //            return mScreenWidth / 2;

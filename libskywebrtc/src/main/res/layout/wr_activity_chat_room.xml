@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:background="#FF0000"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <FrameLayout
             android:id="@+id/wr_video_view_big"
