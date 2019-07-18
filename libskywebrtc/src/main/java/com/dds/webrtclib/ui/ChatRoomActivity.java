@@ -103,12 +103,16 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
         if (videoTracks.size() > 0) {
             _localVideoTrack = videoTracks.get(0);
         }
-        runOnUiThread(() -> addView(userId, stream));
+//        runOnUiThread(() -> );
+        addView(userId, stream);
     }
 
     @Override
     public void onAddRemoteStream(MediaStream stream, String userId) {
-        runOnUiThread(() -> addView(userId, stream));
+//        runOnUiThread(() -> {
+//
+//        });
+        addView(userId, stream);
     }
 
     @Override
@@ -123,41 +127,43 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
     }
 
     private void addView(String id, MediaStream stream) {
-        SurfaceViewRenderer renderer = new SurfaceViewRenderer(ChatRoomActivity.this);
-        renderer.init(rootEglBase.getEglBaseContext(), null);
-        renderer.setScalingType(RendererCommon.ScalingType.SCALE_ASPECT_FIT);
-        renderer.setMirror(true);
+        runOnUiThread(() -> {
+            SurfaceViewRenderer renderer = new SurfaceViewRenderer(ChatRoomActivity.this);
+            renderer.init(rootEglBase.getEglBaseContext(), null);
+            renderer.setScalingType(RendererCommon.ScalingType.SCALE_ASPECT_FIT);
+            renderer.setMirror(true);
 
-        // set render
-        ProxyVideoSink sink = new ProxyVideoSink();
-        sink.setTarget(renderer);
-        if (stream.videoTracks.size() > 0) {
-            stream.videoTracks.get(0).addSink(sink);
-        }
-        _videoViews.put(id, renderer);
-        _sinks.put(id, sink);
-        _infos.add(new MemberBean(id, "用户" + id));
+            // set render
+            ProxyVideoSink sink = new ProxyVideoSink();
+            sink.setTarget(renderer);
+            if (stream.videoTracks.size() > 0) {
+                stream.videoTracks.get(0).addSink(sink);
+            }
+            _videoViews.put(id, renderer);
+            _sinks.put(id, sink);
+            _infos.add(new MemberBean(id, "用户" + id));
 
-        // 添加后，重新计算绘制界面
-        int size = _infos.size();
-        for (int i = 0; i < size; i++) {
+            // 添加后，重新计算绘制界面
+            int size = _infos.size();
+            for (int i = 0; i < size; i++) {
 
-            if (i == 0) {
-                MemberBean memberBean = _infos.get(i);
-                SurfaceViewRenderer renderer1 = _videoViews.get(memberBean.getId());
-                if (renderer1 != null) {
-                    FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                if (i == 0) {
+                    MemberBean memberBean = _infos.get(i);
+                    SurfaceViewRenderer renderer1 = _videoViews.get(memberBean.getId());
+                    if (renderer1 != null) {
+                        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-                    renderer1.setLayoutParams(layoutParams);
+                        renderer1.setLayoutParams(layoutParams);
 
-                    wr_video_view_big.removeAllViews();
-                    wr_video_view_big.addView(renderer);
+                        wr_video_view_big.removeAllViews();
+                        wr_video_view_big.addView(renderer1);
+                    }
                 }
             }
-        }
 
-        setUserRendererData(_infos);
+            setUserRendererData(_infos);
+        });
     }
 
     @Override
@@ -200,11 +206,12 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
                     renderer1.setLayoutParams(layoutParams);
 
                     wr_video_view_big.removeAllViews();
-                    wr_video_view_big.addView(renderer);
+                    wr_video_view_big.addView(renderer1);
                 }
             }
         }
 
+        setUserRendererData(_infos);
     }
 
     @Override  // 屏蔽返回键
