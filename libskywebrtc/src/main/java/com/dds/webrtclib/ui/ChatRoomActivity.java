@@ -18,7 +18,9 @@ import com.dds.webrtclib.PeerConnectionHelper;
 import com.dds.webrtclib.ProxyVideoSink;
 import com.dds.webrtclib.R;
 import com.dds.webrtclib.WebRTCManager;
+import com.dds.webrtclib.bean.DataCache;
 import com.dds.webrtclib.bean.MediaType;
+import com.dds.webrtclib.bean.MeetingContent;
 import com.dds.webrtclib.bean.MeetingMsg;
 import com.dds.webrtclib.bean.MemberBean;
 import com.dds.webrtclib.utils.PermissionUtil;
@@ -121,8 +123,14 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
     }
 
     @Override
-    public void onReceiverMsg(MeetingMsg meetingMsg) {
+    public void onReceiverMsg(MeetingMsg<MeetingContent> meetingMsg) {
         if (meetingMsg == null) {
+            return;
+        }
+
+        if ("onTalkSystem".equals(meetingMsg.getClientFunc())) {
+            MeetingContent content = meetingMsg.getData();
+            DataCache.putOnlineUserInfo(content.getUserId(), content);
         }
     }
 
@@ -234,6 +242,7 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
 
     // 挂断
     public void hangUp() {
+        DataCache.clearOnlineUserInfo();
         exit();
         finish();
     }

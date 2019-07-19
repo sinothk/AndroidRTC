@@ -8,9 +8,10 @@
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/ItemImage"
+        android:id="@+id/itemImage"
         android:layout_width="38dp"
         android:layout_height="38dp"
+        android:scaleType="centerCrop"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/icon_hangup" />
 

@@ -46,7 +46,9 @@ public class LoginDemoActivity extends AppCompatActivity {
 
     public void setId(View view) {
 
-        Constant.url = "wss://112.74.58.200/wss";//et_signal.getText().toString() + ":" + et_port.getText().toString().trim();
+        Constant.url = et_signal.getText().toString() + ":" + et_port.getText().toString().trim();
+        //"wss://112.74.58.200/wss";
+
         Constant.userId = etId.getText().toString();
 
 //        Constant.iceServers = new MyIceServer[]{

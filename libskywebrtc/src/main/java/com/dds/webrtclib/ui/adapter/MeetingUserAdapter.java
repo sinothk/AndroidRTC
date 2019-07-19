@@ -5,9 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.dds.webrtclib.R;
+import com.dds.webrtclib.bean.DataCache;
+import com.dds.webrtclib.bean.MeetingContent;
 import com.dds.webrtclib.bean.MeetingUserEntity;
 
 import java.util.ArrayList;
@@ -59,26 +63,20 @@ public class MeetingUserAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         convertView = layoutInflater.inflate(R.layout.meeting_user_list_item, null);
+
         TextView tvCity = (TextView) convertView.findViewById(R.id.tvCity);
         TextView tvCode = (TextView) convertView.findViewById(R.id.tvCode);
-        MeetingUserEntity city = list.get(position);
+        ImageView itemImage = (ImageView) convertView.findViewById(R.id.itemImage);
 
-        tvCity.setText(city.getCityName());
-        tvCode.setText(city.getCityCode());
+        MeetingUserEntity city = list.get(position);
+        MeetingContent user = DataCache.getOnlineUserInfo(city.getCityCode());
+        tvCity.setText(user.getUserName());
+
+        if (user.getUserPhoto() != null && user.getUserPhoto().length() > 0) {
+            Glide.with(context).load(user.getUserPhoto()).into(itemImage);
+        }else{
+            itemImage.setImageResource(R.drawable.icon_hangup);
+        }
         return convertView;
     }
-
-//    public void setData(ArrayList<MeetingUserEntity> meetingUserList) {
-//
-//        if (meetingUserList == null) {
-//            meetingUserList = new ArrayList<>();
-//        }
-//
-//        if (list != null) {
-//            list.clear();
-//        }
-//
-//        list = meetingUserList;
-//        notifyDataSetChanged();
-//    }
 }
