@@ -18,6 +18,7 @@ import com.dds.webrtclib.PeerConnectionHelper;
 import com.dds.webrtclib.ProxyVideoSink;
 import com.dds.webrtclib.R;
 import com.dds.webrtclib.WebRTCManager;
+import com.dds.webrtclib.bean.Constant;
 import com.dds.webrtclib.bean.DataCache;
 import com.dds.webrtclib.bean.MediaType;
 import com.dds.webrtclib.bean.MeetingMsg;
@@ -165,10 +166,19 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
     public void onEnterOrExitRoom(MeetingMsg meetingMsg) {
         // 进入退出房间返回房间信息
         if (meetingMsg != null && meetingMsg.getData() != null && meetingMsg.getData().getRoomClients() != null) {
-            runOnUiThread(() -> {
-                        ArrayList<MeetingUserEntity> cityList = meetingMsg.getData().getRoomClients();
-                        setGridView(cityList);
+
+            ArrayList<MeetingUserEntity> userList = meetingMsg.getData().getRoomClients();
+            if (meetingCurrUser == null) {
+                for (int i = 0; userList.size() > i; i++) {
+                    if (userList.get(i).getUserId().equals(Constant.userId)) {
+                        userList.get(i).setCurrLiving(true);
+                    } else {
+                        userList.get(i).setCurrLiving(false);
                     }
+                }
+            }
+
+            runOnUiThread(() -> setGridView(userList)
             );
         }
     }

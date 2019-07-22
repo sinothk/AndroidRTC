@@ -13,6 +13,7 @@ public class MeetingUserEntity {
     private String userId;
     private String userName;
     private String userPhoto;
+    private boolean currLiving;
 
     public MeetingUserEntity() {
     }
@@ -20,25 +21,6 @@ public class MeetingUserEntity {
     public MeetingUserEntity(String userId) {
         this.userId = userId;
     }
-
-    //    private String cityName;
-//    private String cityCode;
-
-//    public String getCityName() {
-//        return cityName;
-//    }
-//
-//    public void setCityName(String cityName) {
-//        this.cityName = cityName;
-//    }
-//
-//    public String getCityCode() {
-//        return cityCode;
-//    }
-//
-//    public void setCityCode(String cityCode) {
-//        this.cityCode = cityCode;
-//    }
 
     public String getUserId() {
         return userId;
@@ -62,5 +44,13 @@ public class MeetingUserEntity {
 
     public void setUserPhoto(String userPhoto) {
         this.userPhoto = userPhoto;
+    }
+
+    public boolean isCurrLiving() {
+        return currLiving;
+    }
+
+    public void setCurrLiving(boolean currLiving) {
+        this.currLiving = currLiving;
     }
 }

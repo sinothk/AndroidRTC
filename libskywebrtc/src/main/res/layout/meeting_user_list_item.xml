@@ -23,13 +23,13 @@
             android:src="@drawable/person" />
 
         <TextView
-            android:id="@+id/tvCode"
+            android:id="@+id/livingFlag"
             android:layout_width="8dp"
             android:layout_height="8dp"
             android:layout_alignEnd="@+id/itemImage"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="3dp"
-            android:background="@drawable/shape_red"
+            android:background="@drawable/shape_gray"
             android:visibility="visible" />
     </RelativeLayout>
 

@@ -44,6 +44,7 @@ public class MeetingUserAdapter extends BaseAdapter {
         this.context = _context;
     }
 
+
     @Override
     public int getCount() {
         return list.size();
@@ -59,28 +60,60 @@ public class MeetingUserAdapter extends BaseAdapter {
         return position;
     }
 
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        convertView = layoutInflater.inflate(R.layout.meeting_user_list_item, null);
-
-        TextView itemTitleTv = convertView.findViewById(R.id.itemTitleTv);
-        ImageView itemImage = convertView.findViewById(R.id.itemImage);
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.meeting_user_list_item, null);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
 
         MeetingUserEntity userEntity = list.get(position);
 
-        if (userEntity != null) {
-            itemTitleTv.setText(TextUtils.isEmpty(userEntity.getUserName()) ? userEntity.getUserId() : userEntity.getUserName());
+        holder.itemTitle.setText(TextUtils.isEmpty(userEntity.getUserName()) ? userEntity.getUserId() : userEntity.getUserName());
 
-            if (userEntity.getUserPhoto() != null && userEntity.getUserPhoto().length() > 0) {
-                Glide.with(context).load(userEntity.getUserPhoto())
-                        .bitmapTransform(new CropCircleTransformation(context))
-                        .into(itemImage);
-            } else {
-                itemImage.setImageResource(R.drawable.icon_hangup);
-            }
+        if (userEntity.getUserPhoto() != null && userEntity.getUserPhoto().length() > 0) {
+            Glide.with(context).load(userEntity.getUserPhoto())
+                    .bitmapTransform(new CropCircleTransformation(context))
+                    .into(holder.itemImage);
+        } else {
+            holder.itemImage.setImageResource(R.drawable.person);
+        }
+
+        if (userEntity.isCurrLiving()) {
+            holder.livingFlag.setBackgroundResource(R.drawable.shape_red);
+        }else{
+            holder.livingFlag.setBackgroundResource(R.drawable.shape_gray);
         }
 
         return convertView;
+    }
+
+    public void setData(ArrayList<MeetingUserEntity> userList) {
+        if (this.list != null) {
+            this.list.clear();
+        }
+        if (userList == null) {
+            userList = new ArrayList<>();
+        }
+
+        this.list = userList;
+
+        notifyDataSetChanged();
+    }
+
+    class ViewHolder {
+        ImageView itemImage;
+        TextView itemTitle, livingFlag;
+
+        ViewHolder(View currView) {
+            itemImage = currView.findViewById(R.id.itemImage);
+            itemTitle = currView.findViewById(R.id.itemTitleTv);
+            livingFlag = currView.findViewById(R.id.livingFlag);
+        }
     }
 }

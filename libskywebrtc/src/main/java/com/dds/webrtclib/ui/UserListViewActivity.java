@@ -10,6 +10,7 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 
 import com.dds.webrtclib.R;
+import com.dds.webrtclib.bean.Constant;
 import com.dds.webrtclib.bean.MeetingUserEntity;
 import com.dds.webrtclib.ui.adapter.MeetingUserAdapter;
 
@@ -44,9 +45,9 @@ public abstract class UserListViewActivity extends AppCompatActivity {
     /**
      * 设置GirdView参数，绑定数据
      */
-    protected void setGridView(ArrayList<MeetingUserEntity> cityList) {
-        int size = cityList.size();
-        int length = 100;
+    protected void setGridView(ArrayList<MeetingUserEntity> userList) {
+        int size = userList.size();
+        int length = 80;
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         float density = dm.density;
@@ -60,10 +61,23 @@ public abstract class UserListViewActivity extends AppCompatActivity {
         gridView.setStretchMode(GridView.NO_STRETCH);
         gridView.setNumColumns(size); // 设置列数量=列表集合数
 
-        meetingUserAdapter = new MeetingUserAdapter(getApplicationContext(), cityList);
+        meetingUserAdapter = new MeetingUserAdapter(getApplicationContext(), userList);
         gridView.setAdapter(meetingUserAdapter);
 
-        gridView.setOnItemClickListener((parent, view, position, id) -> setItemClick(cityList.get(position)));
+        gridView.setOnItemClickListener((parent, view, position, id) -> {
+
+                    setItemClick(userList.get(position));
+
+                    for (int i = 0; i < userList.size(); i++) {
+                        if (userList.get(i).getUserId().equals(userList.get(position).getUserId())) {
+                            userList.get(i).setCurrLiving(true);
+                        } else {
+                            userList.get(i).setCurrLiving(false);
+                        }
+                    }
+                    meetingUserAdapter.notifyDataSetChanged();
+                }
+        );
     }
 
     public abstract void setItemClick(MeetingUserEntity meetingUser);
