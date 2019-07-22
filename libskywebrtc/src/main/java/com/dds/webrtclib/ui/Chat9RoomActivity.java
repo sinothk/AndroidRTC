@@ -152,6 +152,11 @@ public class Chat9RoomActivity extends AppCompatActivity implements IViewCallbac
         }
     }
 
+    @Override
+    public void onReceiverOnlineList(MeetingMsg meetingMsg) {
+
+    }
+
     private void addView(String id, MediaStream stream) {
         SurfaceViewRenderer renderer = new SurfaceViewRenderer(Chat9RoomActivity.this);
         renderer.init(rootEglBase.getEglBaseContext(), null);

@@ -1,6 +1,5 @@
 package com.dds.webrtclib;
 
-import com.dds.webrtclib.bean.MeetingContent;
 import com.dds.webrtclib.bean.MeetingMsg;
 
 import org.webrtc.MediaStream;
@@ -17,5 +16,8 @@ public interface IViewCallback {
 
     void onCloseWithId(String socketId);
 
-    void onReceiverMsg(MeetingMsg<MeetingContent> msg);
+    void onReceiverMsg(MeetingMsg msg);
+
+    @Deprecated
+    void onReceiverOnlineList(MeetingMsg meetingMsg);
 }

@@ -8,8 +8,10 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.dds.webrtclib.bean.MediaType;
+import com.dds.webrtclib.bean.MeetingContent;
 import com.dds.webrtclib.bean.MeetingMsg;
 import com.dds.webrtclib.bean.MyIceServer;
+import com.dds.webrtclib.inters.OnMeetEvent;
 import com.dds.webrtclib.ws.IWebSocket;
 
 import org.webrtc.AudioSource;
@@ -75,6 +77,7 @@ public class PeerConnectionHelper {
 
     private String _myId;
     private IViewCallback viewCallback;
+    private OnMeetEvent meetEvent;
 
     private ArrayList<PeerConnection.IceServer> ICEServers;
     private boolean videoEnable;
@@ -119,6 +122,11 @@ public class PeerConnectionHelper {
     // 设置界面的回调
     public void setViewCallback(IViewCallback callback) {
         viewCallback = callback;
+    }
+
+    // 设置消息时间
+    public void setMeetEvent(OnMeetEvent meetEvent) {
+        this.meetEvent = meetEvent;
     }
 
     // ===================================webSocket回调信息=======================================
@@ -224,6 +232,18 @@ public class PeerConnectionHelper {
         if (viewCallback != null) {
             MeetingMsg meetingMsg = JSON.parseObject(msg, MeetingMsg.class);
             viewCallback.onReceiverMsg(meetingMsg);
+        }
+    }
+
+    /**
+     * 用户进入退出，房间用户列表！
+     *
+     * @param message
+     */
+    void onReceiverOnlineList(String message) {
+        if (viewCallback != null) {
+            MeetingMsg meetingMsg = JSON.parseObject(message, MeetingMsg.class);
+            this.meetEvent.onEnterOrExitRoom(meetingMsg);
         }
     }
 

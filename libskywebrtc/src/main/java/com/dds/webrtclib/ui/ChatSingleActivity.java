@@ -211,6 +211,11 @@ public class ChatSingleActivity extends AppCompatActivity {
             @Override
             public void onReceiverMsg(MeetingMsg meetingMsg) {
             }
+
+            @Override
+            public void onReceiverOnlineList(MeetingMsg meetingMsg) {
+
+            }
         });
         if (!PermissionUtil.isNeedRequestPermission(ChatSingleActivity.this)) {
              manager.joinRoom(getApplicationContext(), rootEglBase);

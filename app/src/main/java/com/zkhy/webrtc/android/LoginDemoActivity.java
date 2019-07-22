@@ -83,7 +83,7 @@ public class LoginDemoActivity extends AppCompatActivity {
 
     private void initUserInfo() {
 
-        MeetingMsg<MeetingContent> meetingMsg = new MeetingMsg<>();
+        MeetingMsg meetingMsg = new MeetingMsg();
         meetingMsg.setEventName("__joinUser");
 
         MeetingContent meetingContent = new MeetingContent();

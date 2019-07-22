@@ -1,6 +1,7 @@
 package com.dds.webrtclib.ui.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.dds.webrtclib.R;
-import com.dds.webrtclib.bean.DataCache;
-import com.dds.webrtclib.bean.MeetingContent;
 import com.dds.webrtclib.bean.MeetingUserEntity;
 
 import java.util.ArrayList;
@@ -64,19 +63,22 @@ public class MeetingUserAdapter extends BaseAdapter {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         convertView = layoutInflater.inflate(R.layout.meeting_user_list_item, null);
 
-        TextView tvCity = (TextView) convertView.findViewById(R.id.tvCity);
-        TextView tvCode = (TextView) convertView.findViewById(R.id.tvCode);
-        ImageView itemImage = (ImageView) convertView.findViewById(R.id.itemImage);
+        TextView tvCity = convertView.findViewById(R.id.tvCity);
+        ImageView itemImage = convertView.findViewById(R.id.itemImage);
 
-        MeetingUserEntity city = list.get(position);
-        MeetingContent user = DataCache.getOnlineUserInfo(city.getCityCode());
-        tvCity.setText(user.getUserName());
+        MeetingUserEntity userEntity = list.get(position);
 
-        if (user.getUserPhoto() != null && user.getUserPhoto().length() > 0) {
-            Glide.with(context).load(user.getUserPhoto()).into(itemImage);
-        }else{
-            itemImage.setImageResource(R.drawable.icon_hangup);
+//        MeetingContent user = DataCache.getOnlineUserInfo(userEntity.getCityCode());
+        if (userEntity != null) {
+            tvCity.setText(TextUtils.isEmpty(userEntity.getUserName()) ? userEntity.getUserId() : userEntity.getUserName());
+
+            if (userEntity.getUserPhoto() != null && userEntity.getUserPhoto().length() > 0) {
+                Glide.with(context).load(userEntity.getUserPhoto()).into(itemImage);
+            } else {
+                itemImage.setImageResource(R.drawable.icon_hangup);
+            }
         }
+
         return convertView;
     }
 }

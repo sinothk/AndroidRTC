@@ -10,22 +10,50 @@ package com.dds.webrtclib.bean;
  */
 public class MeetingUserEntity {
 
-    private String cityName;
-    private String cityCode;
+    private String userId;
+    private String userName;
+    private String userPhoto;
 
-    public String getCityName() {
-        return cityName;
+//    private String cityName;
+//    private String cityCode;
+
+//    public String getCityName() {
+//        return cityName;
+//    }
+//
+//    public void setCityName(String cityName) {
+//        this.cityName = cityName;
+//    }
+//
+//    public String getCityCode() {
+//        return cityCode;
+//    }
+//
+//    public void setCityCode(String cityCode) {
+//        this.cityCode = cityCode;
+//    }
+
+    public String getUserId() {
+        return userId;
     }
 
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getCityCode() {
-        return cityCode;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setCityCode(String cityCode) {
-        this.cityCode = cityCode;
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserPhoto() {
+        return userPhoto;
+    }
+
+    public void setUserPhoto(String userPhoto) {
+        this.userPhoto = userPhoto;
     }
 }

@@ -86,7 +86,7 @@ public class VoiLoadingActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onReceiverMsg(MeetingMsg<MeetingContent> meetingMsg) {
+            public void onReceiverMsg(MeetingMsg meetingMsg) {
                 Log.e("onReceiverMsg", "VoiLoadingActivity.onReceiverMsg(String msg) => " + meetingMsg);
 
                 if (meetingMsg.getMsgType() == MsgType.MEET_RESPONSE) {
@@ -103,6 +103,11 @@ public class VoiLoadingActivity extends AppCompatActivity {
                     Log.e(TAG, "未知消息类型：" + meetingMsg.getMsgType());
                     Toast.makeText(VoiLoadingActivity.this, "未知消息", Toast.LENGTH_SHORT).show();
                 }
+            }
+
+            @Override
+            public void onReceiverOnlineList(MeetingMsg meetingMsg) {
+
             }
         });
     }

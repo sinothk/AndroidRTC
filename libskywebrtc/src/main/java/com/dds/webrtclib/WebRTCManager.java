@@ -7,6 +7,8 @@ import android.os.Looper;
 import com.dds.webrtclib.bean.MediaType;
 import com.dds.webrtclib.bean.MeetingMsg;
 import com.dds.webrtclib.bean.MyIceServer;
+import com.dds.webrtclib.inters.OnMeetEvent;
+import com.dds.webrtclib.ui.ChatRoomActivity;
 import com.dds.webrtclib.ws.IConnectEvent;
 import com.dds.webrtclib.ws.ISignalingEvents;
 import com.dds.webrtclib.ws.IWebSocket;
@@ -42,6 +44,12 @@ public class WebRTCManager implements ISignalingEvents {
 
     public static WebRTCManager getInstance() {
         return Holder.wrManager;
+    }
+
+    public void setMeetEvent(OnMeetEvent meetEvent) {
+        if (_peerHelper != null) {
+            _peerHelper.setMeetEvent(meetEvent);
+        }
     }
 
     private static class Holder {
@@ -239,6 +247,15 @@ public class WebRTCManager implements ISignalingEvents {
         handler.post(() -> {
             if (_peerHelper != null) {
                 _peerHelper.onReceiverMsg(msg);
+            }
+        });
+    }
+
+    @Override
+    public void onReceiverOnlineList(String message) {
+        handler.post(() -> {
+            if (_peerHelper != null) {
+                _peerHelper.onReceiverOnlineList(message);
             }
         });
     }

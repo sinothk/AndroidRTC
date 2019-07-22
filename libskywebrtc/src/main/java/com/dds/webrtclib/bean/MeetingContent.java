@@ -1,5 +1,7 @@
 package com.dds.webrtclib.bean;
 
+import java.util.ArrayList;
+
 /**
  * <pre>
  *  创建:  梁玉涛 2019/6/24 on 16:50
@@ -25,6 +27,8 @@ public class MeetingContent {
     private String roomId;
     private String roomName;
     private String room;
+
+    private ArrayList<MeetingUserEntity> roomClients;
 
     private boolean received;
 
@@ -114,5 +118,13 @@ public class MeetingContent {
 
     public void setUserPhoto(String userPhoto) {
         this.userPhoto = userPhoto;
+    }
+
+    public ArrayList<MeetingUserEntity> getRoomClients() {
+        return roomClients;
+    }
+
+    public void setRoomClients(ArrayList<MeetingUserEntity> roomClients) {
+        this.roomClients = roomClients;
     }
 }

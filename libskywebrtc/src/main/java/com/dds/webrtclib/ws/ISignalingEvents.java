@@ -27,7 +27,6 @@ public interface ISignalingEvents {
 
     void onRemoteIceCandidateRemove(String socketId, List<IceCandidate> iceCandidates);
 
-
     void onRemoteOutRoom(String socketId);
 
     void onReceiveOffer(String socketId, String sdp);
@@ -35,4 +34,6 @@ public interface ISignalingEvents {
     void onReceiverAnswer(String socketId, String sdp);
 
     void onReceiverMsg(String msg);
+
+    void onReceiverOnlineList(String message);
 }

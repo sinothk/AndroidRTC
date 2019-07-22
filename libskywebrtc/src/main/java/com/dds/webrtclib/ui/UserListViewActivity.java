@@ -11,14 +11,9 @@ import android.widget.LinearLayout;
 
 import com.dds.webrtclib.R;
 import com.dds.webrtclib.bean.MeetingUserEntity;
-import com.dds.webrtclib.bean.MemberBean;
 import com.dds.webrtclib.ui.adapter.MeetingUserAdapter;
 
-import org.webrtc.SurfaceViewRenderer;
-
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * <pre>
@@ -46,24 +41,10 @@ public abstract class UserListViewActivity extends AppCompatActivity {
         gridView = findViewById(R.id.grid);
     }
 
-    protected void setUserRendererData(List<MemberBean> members) {
-
-        ArrayList<MeetingUserEntity> meetingUserList = new ArrayList<MeetingUserEntity>();
-
-        for (int i = 0; i < members.size(); i++) {
-            MeetingUserEntity item = new MeetingUserEntity();
-            item.setCityName(members.get(i).getName());
-            item.setCityCode(members.get(i).getId());
-            meetingUserList.add(item);
-        }
-
-        setGridView(meetingUserList);
-    }
-
     /**
      * 设置GirdView参数，绑定数据
      */
-    private void setGridView(ArrayList<MeetingUserEntity> cityList) {
+    protected void setGridView(ArrayList<MeetingUserEntity> cityList) {
         int size = cityList.size();
         int length = 100;
         DisplayMetrics dm = new DisplayMetrics();
@@ -82,8 +63,8 @@ public abstract class UserListViewActivity extends AppCompatActivity {
         meetingUserAdapter = new MeetingUserAdapter(getApplicationContext(), cityList);
         gridView.setAdapter(meetingUserAdapter);
 
-        gridView.setOnItemClickListener((parent, view, position, id) -> setItemClick(position));
+        gridView.setOnItemClickListener((parent, view, position, id) -> setItemClick(cityList.get(position)));
     }
 
-    public abstract void setItemClick(int position);
+    public abstract void setItemClick(MeetingUserEntity meetingUser);
 }

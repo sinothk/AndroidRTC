@@ -84,6 +84,27 @@ public class JavaWebSocket implements IWebSocket {
         if (eventName.equals("NOTICE")) {
             handleMsg(message);
         }
+
+        if (eventName.equals("_getOnlineList")) {
+
+            String eventType = (String) map.get("eventType");
+            if ("roomClients".equals(eventType)) {
+                handleOnlineList(message);
+            }
+        }
+    }
+
+    /**
+     * 处理用户上线、下线用户消息
+     *
+     * @param message
+     */
+    private void handleOnlineList(String message) {
+        try {
+            events.onReceiverOnlineList(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

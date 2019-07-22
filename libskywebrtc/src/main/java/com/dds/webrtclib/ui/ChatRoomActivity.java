@@ -22,7 +22,9 @@ import com.dds.webrtclib.bean.DataCache;
 import com.dds.webrtclib.bean.MediaType;
 import com.dds.webrtclib.bean.MeetingContent;
 import com.dds.webrtclib.bean.MeetingMsg;
+import com.dds.webrtclib.bean.MeetingUserEntity;
 import com.dds.webrtclib.bean.MemberBean;
+import com.dds.webrtclib.inters.OnMeetEvent;
 import com.dds.webrtclib.utils.PermissionUtil;
 
 import org.webrtc.EglBase;
@@ -40,7 +42,7 @@ import java.util.Map;
  * 群聊界面
  * 支持 N 路同時通信
  */
-public class ChatRoomActivity extends UserListViewActivity implements IViewCallback {
+public class ChatRoomActivity extends UserListViewActivity implements IViewCallback, OnMeetEvent {
 
     private FrameLayout wr_video_view_big;
 
@@ -93,6 +95,7 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
 
     private void startCall() {
         manager.setCallback(this);
+        manager.setMeetEvent(this);
 
         if (!PermissionUtil.isNeedRequestPermission(ChatRoomActivity.this)) {
             manager.joinRoom(getApplicationContext(), rootEglBase);
@@ -123,15 +126,15 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
     }
 
     @Override
-    public void onReceiverMsg(MeetingMsg<MeetingContent> meetingMsg) {
+    public void onReceiverMsg(MeetingMsg meetingMsg) {
         if (meetingMsg == null) {
             return;
         }
 
-        if ("onTalkSystem".equals(meetingMsg.getClientFunc())) {
-            MeetingContent content = meetingMsg.getData();
-            DataCache.putOnlineUserInfo(content.getUserId(), content);
-        }
+//        if ("onTalkSystem".equals(meetingMsg.getClientFunc())) {
+//            MeetingContent content = meetingMsg.getData();
+//            DataCache.putOnlineUserInfo(content.getUserId(), content);
+//        }
     }
 
     private void addView(String id, MediaStream stream) {
@@ -170,14 +173,30 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
                 }
             }
 
-            setUserRendererData(_infos);
+//            setUserRendererData(_infos);
         });
     }
 
     @Override
-    public void setItemClick(int position) {
-        MemberBean memberBean = _infos.get(position);
-        SurfaceViewRenderer currRenderer = _videoViews.get(memberBean.getId());
+    public void onReceiverOnlineList(MeetingMsg meetingMsg) {
+        // 进入退出房间返回房间信息
+//        if (meetingMsg != null && meetingMsg.getData() != null && meetingMsg.getData().getRoomClients() != null) {
+//            runOnUiThread(() -> setGridView(meetingMsg.getData().getRoomClients()));
+//        }
+    }
+
+    @Override
+    public void onEnterOrExitRoom(MeetingMsg meetingMsg) {
+        // 进入退出房间返回房间信息
+        if (meetingMsg != null && meetingMsg.getData() != null && meetingMsg.getData().getRoomClients() != null) {
+            runOnUiThread(() -> setGridView(meetingMsg.getData().getRoomClients()));
+        }
+    }
+
+    @Override
+    public void setItemClick(MeetingUserEntity meetingUser) {
+
+        SurfaceViewRenderer currRenderer = _videoViews.get(meetingUser.getUserId());
 
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -218,8 +237,7 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
                 }
             }
         }
-
-        setUserRendererData(_infos);
+//        setUserRendererData(_infos);
     }
 
     @Override  // 屏蔽返回键

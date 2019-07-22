@@ -134,7 +134,7 @@ public class HomeDemoActivity extends AppCompatActivity implements IViewCallback
 
     // 接收消息部分
     @Override
-    public void onReceiverMsg(MeetingMsg<MeetingContent> meetingMsg) {
+    public void onReceiverMsg(MeetingMsg meetingMsg) {
 
         if (meetingMsg.getChatType() == ChatType.MEETING) {
             if (meetingMsg.getMsgType() == MsgType.MEET_REQUEST) {
@@ -185,9 +185,16 @@ public class HomeDemoActivity extends AppCompatActivity implements IViewCallback
         }
     }
 
+    @Override
+    public void onReceiverOnlineList(MeetingMsg meetingMsg) {
+        // 进入退出房间返回房间信息
+        if (meetingMsg != null && meetingMsg.getData() != null && meetingMsg.getData().getRoomClients() != null) {
+        }
+    }
+
     private void callBack(WebRTCManager manager, MeetingMsg meetingMsg, boolean status) {
 
-        MeetingMsg<MeetingContent> msgBack = new MeetingMsg<>();
+        MeetingMsg msgBack = new MeetingMsg();
         msgBack.setEventName("NOTICE");
         msgBack.setServerFunc("sayHello");
         msgBack.setClientFunc("retHello");
@@ -231,7 +238,7 @@ public class HomeDemoActivity extends AppCompatActivity implements IViewCallback
 
     private void initUserInfo() {
 
-        MeetingMsg<MeetingContent> meetingMsg = new MeetingMsg<>();
+        MeetingMsg meetingMsg = new MeetingMsg();
         meetingMsg.setEventName("__joinUser");
 
         MeetingContent meetingContent = new MeetingContent();
