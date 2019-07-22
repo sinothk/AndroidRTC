@@ -176,6 +176,14 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
                         userList.get(i).setCurrLiving(false);
                     }
                 }
+            }else{
+                for (int i = 0; userList.size() > i; i++) {
+                    if (userList.get(i).getUserId().equals(meetingCurrUser.getUserId())) {
+                        userList.get(i).setCurrLiving(true);
+                    } else {
+                        userList.get(i).setCurrLiving(false);
+                    }
+                }
             }
 
             runOnUiThread(() -> setGridView(userList)
@@ -201,10 +209,6 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
     }
 
     private void removeView(String userId) {
-        if (TextUtils.isEmpty(meetingCurrUser.getUserId()) && userId.equals(meetingCurrUser.getUserId())) {
-            meetingCurrUser = null;
-        }
-
         //
         ProxyVideoSink sink = _sinks.get(userId);
         SurfaceViewRenderer renderer = _videoViews.get(userId);
@@ -220,16 +224,23 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
 
         wr_video_view_big.removeView(renderer);
 
-        if (_infos.size() > 0) {
-            meetingCurrUser = _infos.get(0);
-            SurfaceViewRenderer renderer1 = _videoViews.get(meetingCurrUser.getUserId());
-            if (renderer1 != null) {
-                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        // 重新展示
+        if (!TextUtils.isEmpty(meetingCurrUser.getUserId()) && userId.equals(meetingCurrUser.getUserId())) {
+            meetingCurrUser = null;
 
-                renderer1.setLayoutParams(layoutParams);
+            if (meetingUserAdapter.getDataList().size() > 0) {
+                meetingCurrUser = meetingUserAdapter.getDataList().get(0);
+                SurfaceViewRenderer renderer1 = _videoViews.get(meetingCurrUser.getUserId());
+                if (renderer1 != null) {
+                    FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-                wr_video_view_big.removeAllViews();
-                wr_video_view_big.addView(renderer1);
+                    renderer1.setLayoutParams(layoutParams);
+
+                    wr_video_view_big.removeAllViews();
+                    wr_video_view_big.addView(renderer1);
+                }
+
+                meetingUserAdapter.setLivingUser(meetingCurrUser.getUserId());
             }
         }
     }

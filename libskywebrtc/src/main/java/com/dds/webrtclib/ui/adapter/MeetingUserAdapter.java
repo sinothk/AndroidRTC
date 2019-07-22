@@ -106,6 +106,21 @@ public class MeetingUserAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void setLivingUser(String userId) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getUserId().equals(userId)) {
+                list.get(i).setCurrLiving(true);
+            } else {
+                list.get(i).setCurrLiving(false);
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public List<MeetingUserEntity> getDataList() {
+        return list;
+    }
+
     class ViewHolder {
         ImageView itemImage;
         TextView itemTitle, livingFlag;
