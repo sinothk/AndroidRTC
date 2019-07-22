@@ -7,10 +7,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.dds.webrtclib.IViewCallback;
@@ -20,10 +20,8 @@ import com.dds.webrtclib.R;
 import com.dds.webrtclib.WebRTCManager;
 import com.dds.webrtclib.bean.DataCache;
 import com.dds.webrtclib.bean.MediaType;
-import com.dds.webrtclib.bean.MeetingContent;
 import com.dds.webrtclib.bean.MeetingMsg;
 import com.dds.webrtclib.bean.MeetingUserEntity;
-import com.dds.webrtclib.bean.MemberBean;
 import com.dds.webrtclib.inters.OnMeetEvent;
 import com.dds.webrtclib.utils.PermissionUtil;
 
@@ -49,13 +47,14 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
     private WebRTCManager manager;
     private Map<String, SurfaceViewRenderer> _videoViews = new HashMap<>();
     private Map<String, ProxyVideoSink> _sinks = new HashMap<>();
-    private List<MemberBean> _infos = new ArrayList<>();
+    private List<MeetingUserEntity> _infos = new ArrayList<>();
     private VideoTrack _localVideoTrack;
 
     //    private String roomId;
     private EglBase rootEglBase;
-
     private static int startType = 0;
+
+    private MeetingUserEntity meetingCurrUser;
 
     public static void openActivity(Activity activity) {
         startType = 0;
@@ -108,15 +107,11 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
         if (videoTracks.size() > 0) {
             _localVideoTrack = videoTracks.get(0);
         }
-//        runOnUiThread(() -> );
         addView(userId, stream);
     }
 
     @Override
     public void onAddRemoteStream(MediaStream stream, String userId) {
-//        runOnUiThread(() -> {
-//
-//        });
         addView(userId, stream);
     }
 
@@ -130,11 +125,6 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
         if (meetingMsg == null) {
             return;
         }
-
-//        if ("onTalkSystem".equals(meetingMsg.getClientFunc())) {
-//            MeetingContent content = meetingMsg.getData();
-//            DataCache.putOnlineUserInfo(content.getUserId(), content);
-//        }
     }
 
     private void addView(String id, MediaStream stream) {
@@ -152,61 +142,60 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
             }
             _videoViews.put(id, renderer);
             _sinks.put(id, sink);
-            _infos.add(new MemberBean(id, "用户" + id));
+            _infos.add(new MeetingUserEntity(id));
 
             // 添加后，重新计算绘制界面
-            int size = _infos.size();
-            for (int i = 0; i < size; i++) {
+            if (meetingCurrUser == null) {
+                meetingCurrUser = _infos.get(0);
 
-                if (i == 0) {
-                    MemberBean memberBean = _infos.get(i);
-                    SurfaceViewRenderer renderer1 = _videoViews.get(memberBean.getId());
-                    if (renderer1 != null) {
-                        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                SurfaceViewRenderer renderer1 = _videoViews.get(meetingCurrUser.getUserId());
+                if (renderer1 != null) {
+                    FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-                        renderer1.setLayoutParams(layoutParams);
+                    renderer1.setLayoutParams(layoutParams);
 
-                        wr_video_view_big.removeAllViews();
-                        wr_video_view_big.addView(renderer1);
-                    }
+                    wr_video_view_big.removeAllViews();
+                    wr_video_view_big.addView(renderer1);
                 }
             }
-
-//            setUserRendererData(_infos);
         });
-    }
-
-    @Override
-    public void onReceiverOnlineList(MeetingMsg meetingMsg) {
-        // 进入退出房间返回房间信息
-//        if (meetingMsg != null && meetingMsg.getData() != null && meetingMsg.getData().getRoomClients() != null) {
-//            runOnUiThread(() -> setGridView(meetingMsg.getData().getRoomClients()));
-//        }
     }
 
     @Override
     public void onEnterOrExitRoom(MeetingMsg meetingMsg) {
         // 进入退出房间返回房间信息
         if (meetingMsg != null && meetingMsg.getData() != null && meetingMsg.getData().getRoomClients() != null) {
-            runOnUiThread(() -> setGridView(meetingMsg.getData().getRoomClients()));
+            runOnUiThread(() -> {
+                        ArrayList<MeetingUserEntity> cityList = meetingMsg.getData().getRoomClients();
+                        setGridView(cityList);
+                    }
+            );
         }
     }
 
     @Override
     public void setItemClick(MeetingUserEntity meetingUser) {
+        meetingCurrUser = meetingUser;
+        if (meetingCurrUser == null) {
+            return;
+        }
 
-        SurfaceViewRenderer currRenderer = _videoViews.get(meetingUser.getUserId());
+        SurfaceViewRenderer currRenderer = _videoViews.get(meetingCurrUser.getUserId());
+        if (currRenderer != null) {
+            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            currRenderer.setLayoutParams(layoutParams);
 
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        currRenderer.setLayoutParams(layoutParams);
-
-        wr_video_view_big.removeAllViews();
-        wr_video_view_big.addView(currRenderer);
+            wr_video_view_big.removeAllViews();
+            wr_video_view_big.addView(currRenderer);
+        }
     }
 
     private void removeView(String userId) {
+        if (TextUtils.isEmpty(meetingCurrUser.getUserId()) && userId.equals(meetingCurrUser.getUserId())) {
+            meetingCurrUser = null;
+        }
+
+        //
         ProxyVideoSink sink = _sinks.get(userId);
         SurfaceViewRenderer renderer = _videoViews.get(userId);
         if (sink != null) {
@@ -217,27 +206,22 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
         }
         _sinks.remove(userId);
         _videoViews.remove(userId);
-        _infos.remove(new MemberBean(userId));
+        _infos.remove(new MeetingUserEntity(userId));
 
         wr_video_view_big.removeView(renderer);
 
-        int size = _infos.size();
-        for (int i = 0; i < size; i++) {
+        if (_infos.size() > 0) {
+            meetingCurrUser = _infos.get(0);
+            SurfaceViewRenderer renderer1 = _videoViews.get(meetingCurrUser.getUserId());
+            if (renderer1 != null) {
+                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-            if (i == 0) {
-                MemberBean memberBean = _infos.get(i);
-                SurfaceViewRenderer renderer1 = _videoViews.get(memberBean.getId());
-                if (renderer1 != null) {
-                    FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                    renderer1.setLayoutParams(layoutParams);
+                renderer1.setLayoutParams(layoutParams);
 
-                    wr_video_view_big.removeAllViews();
-                    wr_video_view_big.addView(renderer1);
-                }
+                wr_video_view_big.removeAllViews();
+                wr_video_view_big.addView(renderer1);
             }
         }
-//        setUserRendererData(_infos);
     }
 
     @Override  // 屏蔽返回键
@@ -250,7 +234,6 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
         manager.beginTransaction()
                 .replace(R.id.wr_container, fragment)
                 .commit();
-
     }
 
     // 切换摄像头
@@ -280,7 +263,6 @@ public class ChatRoomActivity extends UserListViewActivity implements IViewCallb
         if (_localVideoTrack != null) {
             _localVideoTrack.setEnabled(enableCamera);
         }
-
     }
 
     private void exit() {

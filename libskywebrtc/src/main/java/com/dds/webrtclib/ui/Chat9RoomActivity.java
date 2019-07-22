@@ -23,7 +23,7 @@ import com.dds.webrtclib.R;
 import com.dds.webrtclib.WebRTCManager;
 import com.dds.webrtclib.bean.MediaType;
 import com.dds.webrtclib.bean.MeetingMsg;
-import com.dds.webrtclib.bean.MemberBean;
+import com.dds.webrtclib.bean.MeetingUserEntity;
 import com.dds.webrtclib.utils.PermissionUtil;
 
 import org.webrtc.EglBase;
@@ -48,7 +48,7 @@ public class Chat9RoomActivity extends AppCompatActivity implements IViewCallbac
     private WebRTCManager manager;
     private Map<String, SurfaceViewRenderer> _videoViews = new HashMap<>();
     private Map<String, ProxyVideoSink> _sinks = new HashMap<>();
-    private List<MemberBean> _infos = new ArrayList<>();
+    private List<MeetingUserEntity> _infos = new ArrayList<>();
     private VideoTrack _localVideoTrack;
 
     private int mScreenWidth;
@@ -152,11 +152,6 @@ public class Chat9RoomActivity extends AppCompatActivity implements IViewCallbac
         }
     }
 
-    @Override
-    public void onReceiverOnlineList(MeetingMsg meetingMsg) {
-
-    }
-
     private void addView(String id, MediaStream stream) {
         SurfaceViewRenderer renderer = new SurfaceViewRenderer(Chat9RoomActivity.this);
         renderer.init(rootEglBase.getEglBaseContext(), null);
@@ -170,13 +165,13 @@ public class Chat9RoomActivity extends AppCompatActivity implements IViewCallbac
         }
         _videoViews.put(id, renderer);
         _sinks.put(id, sink);
-        _infos.add(new MemberBean(id));
+        _infos.add(new MeetingUserEntity(id));
         wr_video_view.addView(renderer);
 
         int size = _infos.size();
         for (int i = 0; i < size; i++) {
-            MemberBean memberBean = _infos.get(i);
-            SurfaceViewRenderer renderer1 = _videoViews.get(memberBean.getId());
+            MeetingUserEntity memberBean = _infos.get(i);
+            SurfaceViewRenderer renderer1 = _videoViews.get(memberBean.getUserId());
             if (renderer1 != null) {
                 FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -204,14 +199,14 @@ public class Chat9RoomActivity extends AppCompatActivity implements IViewCallbac
         }
         _sinks.remove(userId);
         _videoViews.remove(userId);
-        _infos.remove(new MemberBean(userId));
+        _infos.remove(new MeetingUserEntity(userId));
         wr_video_view.removeView(renderer);
 
 
         int size = _infos.size();
         for (int i = 0; i < _infos.size(); i++) {
-            MemberBean memberBean = _infos.get(i);
-            SurfaceViewRenderer renderer1 = _videoViews.get(memberBean.getId());
+            MeetingUserEntity memberBean = _infos.get(i);
+            SurfaceViewRenderer renderer1 = _videoViews.get(memberBean.getUserId());
             if (renderer1 != null) {
                 FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);

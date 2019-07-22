@@ -104,11 +104,6 @@ public class VoiLoadingActivity extends AppCompatActivity {
                     Toast.makeText(VoiLoadingActivity.this, "未知消息", Toast.LENGTH_SHORT).show();
                 }
             }
-
-            @Override
-            public void onReceiverOnlineList(MeetingMsg meetingMsg) {
-
-            }
         });
     }
 

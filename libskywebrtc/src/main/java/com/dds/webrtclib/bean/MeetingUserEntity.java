@@ -14,7 +14,14 @@ public class MeetingUserEntity {
     private String userName;
     private String userPhoto;
 
-//    private String cityName;
+    public MeetingUserEntity() {
+    }
+
+    public MeetingUserEntity(String userId) {
+        this.userId = userId;
+    }
+
+    //    private String cityName;
 //    private String cityCode;
 
 //    public String getCityName() {

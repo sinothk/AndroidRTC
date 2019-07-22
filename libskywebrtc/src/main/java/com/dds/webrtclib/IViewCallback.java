@@ -17,7 +17,4 @@ public interface IViewCallback {
     void onCloseWithId(String socketId);
 
     void onReceiverMsg(MeetingMsg msg);
-
-    @Deprecated
-    void onReceiverOnlineList(MeetingMsg meetingMsg);
 }

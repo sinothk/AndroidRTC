@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.dds.webrtclib.R;
 import com.dds.webrtclib.bean.MeetingUserEntity;
+import com.dds.webrtclib.glide.CropCircleTransformation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,17 +64,18 @@ public class MeetingUserAdapter extends BaseAdapter {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         convertView = layoutInflater.inflate(R.layout.meeting_user_list_item, null);
 
-        TextView tvCity = convertView.findViewById(R.id.tvCity);
+        TextView itemTitleTv = convertView.findViewById(R.id.itemTitleTv);
         ImageView itemImage = convertView.findViewById(R.id.itemImage);
 
         MeetingUserEntity userEntity = list.get(position);
 
-//        MeetingContent user = DataCache.getOnlineUserInfo(userEntity.getCityCode());
         if (userEntity != null) {
-            tvCity.setText(TextUtils.isEmpty(userEntity.getUserName()) ? userEntity.getUserId() : userEntity.getUserName());
+            itemTitleTv.setText(TextUtils.isEmpty(userEntity.getUserName()) ? userEntity.getUserId() : userEntity.getUserName());
 
             if (userEntity.getUserPhoto() != null && userEntity.getUserPhoto().length() > 0) {
-                Glide.with(context).load(userEntity.getUserPhoto()).into(itemImage);
+                Glide.with(context).load(userEntity.getUserPhoto())
+                        .bitmapTransform(new CropCircleTransformation(context))
+                        .into(itemImage);
             } else {
                 itemImage.setImageResource(R.drawable.icon_hangup);
             }

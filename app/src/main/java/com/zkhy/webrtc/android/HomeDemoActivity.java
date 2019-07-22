@@ -42,17 +42,17 @@ public class HomeDemoActivity extends AppCompatActivity implements IViewCallback
         WebRTCManager.getInstance().setCallback(this);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        new Handler().postDelayed(this::initWebRtc, 3000);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        WebRTCManager.getInstance().closeConnect();
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        new Handler().postDelayed(this::initWebRtc, 3000);
+//    }
+//
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        WebRTCManager.getInstance().closeConnect();
+//    }
 
     @Override
     public void onSetLocalStream(MediaStream stream, String socketId) {
@@ -182,13 +182,6 @@ public class HomeDemoActivity extends AppCompatActivity implements IViewCallback
             } else {
                 Toast.makeText(HomeDemoActivity.this, "未知消息", Toast.LENGTH_SHORT).show();
             }
-        }
-    }
-
-    @Override
-    public void onReceiverOnlineList(MeetingMsg meetingMsg) {
-        // 进入退出房间返回房间信息
-        if (meetingMsg != null && meetingMsg.getData() != null && meetingMsg.getData().getRoomClients() != null) {
         }
     }
 
