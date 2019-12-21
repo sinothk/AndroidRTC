@@ -240,7 +240,7 @@ public class PeerConnectionHelper {
      *
      * @param message
      */
-    void onReceiverOnlineList(String message) {
+    public void onReceiverOnlineList(String message) {
         if (viewCallback != null) {
             MeetingMsg meetingMsg = JSON.parseObject(message, MeetingMsg.class);
             this.meetEvent.onEnterOrExitRoom(meetingMsg);
@@ -374,7 +374,7 @@ public class PeerConnectionHelper {
     }
 
     // 退出房间
-    void exitRoom() {
+    public void exitRoom() {
 //        if (viewCallback != null) {
 //            viewCallback = null;
 //        }
