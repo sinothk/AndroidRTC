@@ -50,6 +50,11 @@ public class RtcHelper implements ISignalingEvents {
         _peerHelper = new PeerConnectionHelper(_webSocket, _iceServers);
     }
 
+    public static void joinRoom(String _roomId) {
+        if (_webSocket != null) {
+            _webSocket.joinRoom(_roomId);
+        }
+    }
 
     // ================================================================================
     private Handler handler = new Handler(Looper.getMainLooper());
