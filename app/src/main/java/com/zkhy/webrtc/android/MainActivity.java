@@ -36,11 +36,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initVar() {
-        et_signal.setText("wss://112.74.58.200");
-        et_port.setText("443");
+//        et_signal.setText("wss://112.74.58.200");
+//        et_port.setText("443");
+
+        et_signal.setText("ws://192.168.1.124");
+        et_port.setText("3000");
         et_room.setText("1");
 
         edit_test_wss.setText("wss://112.74.58.200:443");
+    }
+
+    public void JoinRoom(View view) {// 加入房间
+        WebrtcUtil.call(this, et_signal.getText().toString() + ":" + et_port.getText().toString().trim(), et_room.getText().toString().trim());
+
     }
 
     public void JoinRoomSingleVideo(View view) {// 一对一视频
@@ -58,10 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 false);
     }
 
-    public void JoinRoom(View view) {// 加入房间
-        WebrtcUtil.call(this, et_signal.getText().toString() + ":" + et_port.getText().toString().trim(), et_room.getText().toString().trim());
 
-    }
 
     //test wss
     public void wss(View view) {
