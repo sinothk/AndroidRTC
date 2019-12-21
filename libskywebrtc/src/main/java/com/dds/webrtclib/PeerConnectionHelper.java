@@ -423,10 +423,7 @@ public class PeerConnectionHelper {
                 _webSocket = null;
             }
         });
-
-
     }
-
 
     private VideoCapturer createVideoCapture() {
         VideoCapturer videoCapturer;

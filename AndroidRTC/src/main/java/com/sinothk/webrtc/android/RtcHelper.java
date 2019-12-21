@@ -80,6 +80,13 @@ public class RtcHelper implements ISignalingEvents {
         }
     }
 
+    public void exitRoom() {
+        if (_peerHelper != null) {
+            _webSocket = null;
+            _peerHelper.exitRoom();
+        }
+    }
+
     // ================================================================================
     private Handler handler = new Handler(Looper.getMainLooper());
 
@@ -256,13 +263,6 @@ public class RtcHelper implements ISignalingEvents {
     public void toggleMute(boolean enable) {
         if (_peerHelper != null) {
             _peerHelper.toggleMute(enable);
-        }
-    }
-
-    public void exitRoom() {
-        if (_peerHelper != null) {
-            _webSocket = null;
-            _peerHelper.exitRoom();
         }
     }
 }

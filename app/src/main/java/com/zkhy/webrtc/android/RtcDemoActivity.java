@@ -1,6 +1,8 @@
 package com.zkhy.webrtc.android;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,5 +51,12 @@ public class RtcDemoActivity extends AppCompatActivity {
 //                }
 //            });
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        RtcApp.initRtc();
     }
 }

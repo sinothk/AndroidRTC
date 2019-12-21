@@ -7,9 +7,15 @@ import com.dds.webrtclib.ws.IConnectEvent;
 import com.sinothk.webrtc.android.RtcHelper;
 
 public class RtcApp extends Application {
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        initRtc();
+    }
+
+    public static void initRtc() {
 
         String serverUrl = "ws://192.168.1.124:3000";
 
@@ -28,6 +34,7 @@ public class RtcApp extends Application {
                 }
             }
         });
+
     }
 
     // turn and stun

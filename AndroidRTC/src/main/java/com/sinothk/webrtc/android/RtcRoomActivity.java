@@ -58,7 +58,7 @@ public class RtcRoomActivity extends UserListViewActivity implements IViewCallba
     public static void openActivity(Activity activity, String roomId) {
         Intent intent = new Intent(activity, RtcRoomActivity.class);
         intent.putExtra("roomId", roomId);
-        activity.startActivity(intent);
+        activity.startActivityForResult(intent, 200);
     }
 
     @Override
