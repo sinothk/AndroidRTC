@@ -36,11 +36,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initVar() {
-        et_signal.setText("ws://192.168.1.124");
-        et_port.setText("3000");
+        et_signal.setText("wss://112.74.58.200");
+        et_port.setText("443");
         et_room.setText("1");
 
-        edit_test_wss.setText("wss://192.168.1.124:4436");
+        edit_test_wss.setText("wss://112.74.58.200:443");
     }
 
     public void JoinRoomSingleVideo(View view) {// 一对一视频

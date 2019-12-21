@@ -33,7 +33,7 @@ public class LoginDemoActivity extends AppCompatActivity {
         et_port = findViewById(R.id.et_port);
         etId = findViewById(R.id.et_id);
 
-        et_signal.setText("ws://192.168.1.124");
+        et_signal.setText("ws://112.74.58.200");
         et_port.setText("3000");
         etId.setText("6666");
     }
@@ -60,7 +60,7 @@ public class LoginDemoActivity extends AppCompatActivity {
 
         Constant.iceServers = new MyIceServer[]{
                 // new MyIceServer("stun:stun.l.google.com:19302"),
-                new MyIceServer("turn:47.106.221.149:3478", "wz", "123456"),
+                new MyIceServer("turn:112.74.58.200:3478", "wz", "123456"),
         };
 
         WebRTCManager.getInstance().init(Constant.url, Constant.iceServers, new IConnectEvent() {

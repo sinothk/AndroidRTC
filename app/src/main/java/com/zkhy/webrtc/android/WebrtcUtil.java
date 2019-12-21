@@ -61,7 +61,9 @@ public class WebrtcUtil {
 
             @Override
             public void onFailed(String msg) {
+                if (msg == null) {
 
+                }
             }
         });
         WebRTCManager.getInstance().connect(videoEnable ? MediaType.TYPE_VIDEO : MediaType.TYPE_AUDIO, roomId);
