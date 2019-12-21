@@ -3,7 +3,7 @@ package com.zkhy.webrtc.android;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class ARtcDemoActivity extends AppCompatActivity {
+public class RtcDemoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
