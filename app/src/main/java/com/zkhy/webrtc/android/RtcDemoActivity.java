@@ -1,12 +1,11 @@
 package com.zkhy.webrtc.android;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.dds.webrtclib.ui.ChatRoomActivity;
+import com.sinothk.webrtc.android.RtcRoomActivity;
 import com.sinothk.webrtc.android.RoomEventListener;
 import com.sinothk.webrtc.android.RtcHelper;
 
@@ -35,17 +34,20 @@ public class RtcDemoActivity extends AppCompatActivity {
 
         createRoomBtn.setOnClickListener(view -> {
             String roomNum = roomNumEt.getText().toString();
-            RtcHelper.joinRoom(roomNum, new RoomEventListener() {
-                @Override
-                public void onSuccess(ArrayList<String> connections, String myId) {
-                    ChatRoomActivity.openActivity(RtcDemoActivity.this);
-                }
+            RtcRoomActivity.openActivity(RtcDemoActivity.this, roomNum);
 
-                @Override
-                public void onFails(String myId) {
 
-                }
-            });
+//            RtcHelper.joinRoom(this, roomNum, new RoomEventListener() {
+//                @Override
+//                public void onSuccess(ArrayList<String> connections, String myId) {
+//                    RtcRoomActivity.openActivity(RtcDemoActivity.this, roomNum);
+//                }
+//
+//                @Override
+//                public void onFails(String myId) {
+//
+//                }
+//            });
         });
     }
 }

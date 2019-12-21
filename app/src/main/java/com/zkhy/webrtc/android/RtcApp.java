@@ -32,9 +32,16 @@ public class RtcApp extends Application {
 
     // turn and stun
     private static MyIceServer[] iceServers = {
-            // new MyIceServer("stun:stun.l.google.com:19302"),
-            new MyIceServer("stun:47.254.34.146:3478"),
-            new MyIceServer("turn:47.254.34.146?transport=tcp", "dds", "123456"),
-            new MyIceServer("turn:47.254.34.146:3478", "dds", "123456"),
+            // new MyIceServer("stun:stun.l.google.com:19302"), https://112.74.58.200
+            new MyIceServer("stun:112.74.58.200:3478"),
+            new MyIceServer("turn:112.74.58.200?transport=tcp", "wz", "123456"),
+            new MyIceServer("turn:112.74.58.200:3478", "wz", "123456"),
     };
+
+//    private static MyIceServer[] iceServers = {
+//            // new MyIceServer("stun:stun.l.google.com:19302"), https://112.74.58.200
+//            new MyIceServer("stun:112.74.58.200:3478"),
+//            new MyIceServer("turn:112.74.58.200?transport=tcp", "dds", "123456"),
+//            new MyIceServer("turn:112.74.58.200:3478", "dds", "123456"),
+//    };
 }

@@ -1,16 +1,20 @@
 package com.sinothk.webrtc.android;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.dds.webrtclib.IViewCallback;
 import com.dds.webrtclib.PeerConnectionHelper;
 import com.dds.webrtclib.bean.MediaType;
 import com.dds.webrtclib.bean.MyIceServer;
+import com.dds.webrtclib.inters.OnMeetEvent;
 import com.dds.webrtclib.ws.IConnectEvent;
 import com.dds.webrtclib.ws.ISignalingEvents;
 import com.dds.webrtclib.ws.IWebSocket;
 import com.dds.webrtclib.ws.JavaWebSocket;
 
+import org.webrtc.EglBase;
 import org.webrtc.IceCandidate;
 
 import java.util.ArrayList;
@@ -30,9 +34,13 @@ public class RtcHelper implements ISignalingEvents {
     private static int _mediaType;
     private static boolean _videoEnable;
 
-    //lyt : room监听器
-    static RoomEventListener roomEventListener;
+    private static class Holder {
+        private static RtcHelper wrManager = new RtcHelper();
+    }
 
+    public static RtcHelper getInstance() {
+        return Holder.wrManager;
+    }
 
     public static void init(String serverUrl, MyIceServer[] iceServers, IConnectEvent event) {
         _wss = serverUrl;
@@ -58,10 +66,14 @@ public class RtcHelper implements ISignalingEvents {
         _peerHelper = new PeerConnectionHelper(_webSocket, _iceServers);
     }
 
-    public static void joinRoom(String _roomId, RoomEventListener eventListener) {
-        roomEventListener = eventListener;
+    public void joinRoom(Context context, String _roomId, EglBase eglBase) {
         _mediaType = MediaType.TYPE_MEETING;
         _videoEnable = true;
+
+
+        if (_peerHelper != null) {
+            _peerHelper.initContext(context, eglBase);
+        }
 
         if (_webSocket != null) {
             _webSocket.joinRoom(_roomId);
@@ -111,10 +123,6 @@ public class RtcHelper implements ISignalingEvents {
                     if (_mediaType == MediaType.TYPE_VIDEO || _mediaType == MediaType.TYPE_MEETING) {
                         toggleSpeaker(true);
                     }
-                }
-
-                if (roomEventListener != null) {
-                    roomEventListener.onSuccess(connections, myId);
                 }
             }
         });
@@ -227,4 +235,34 @@ public class RtcHelper implements ISignalingEvents {
         }
     }
 
+    public void setMeetEvent(OnMeetEvent meetEvent) {
+        if (_peerHelper != null) {
+            _peerHelper.setMeetEvent(meetEvent);
+        }
+    }
+
+    public void setCallback(IViewCallback callback) {
+        if (_peerHelper != null) {
+            _peerHelper.setViewCallback(callback);
+        }
+    }
+
+    public void switchCamera() {
+        if (_peerHelper != null) {
+            _peerHelper.switchCamera();
+        }
+    }
+
+    public void toggleMute(boolean enable) {
+        if (_peerHelper != null) {
+            _peerHelper.toggleMute(enable);
+        }
+    }
+
+    public void exitRoom() {
+        if (_peerHelper != null) {
+            _webSocket = null;
+            _peerHelper.exitRoom();
+        }
+    }
 }
