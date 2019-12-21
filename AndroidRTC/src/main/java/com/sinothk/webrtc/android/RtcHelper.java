@@ -7,6 +7,7 @@ import android.os.Looper;
 import com.dds.webrtclib.IViewCallback;
 import com.dds.webrtclib.PeerConnectionHelper;
 import com.dds.webrtclib.bean.MediaType;
+import com.dds.webrtclib.bean.MeetingMsg;
 import com.dds.webrtclib.bean.MyIceServer;
 import com.dds.webrtclib.inters.OnMeetEvent;
 import com.dds.webrtclib.ws.IConnectEvent;
@@ -87,6 +88,14 @@ public class RtcHelper implements ISignalingEvents {
         }
     }
 
+    public void sendMsg(MeetingMsg meetingMsg) {
+        try {
+            _webSocket.sendMsg(meetingMsg);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // ================================================================================
     private Handler handler = new Handler(Looper.getMainLooper());
 
@@ -109,11 +118,11 @@ public class RtcHelper implements ISignalingEvents {
             @Override
             public void run() {
                 if (_webSocket != null && !_webSocket.isOpen()) {
-//                    _connectEvent.onFailed(msg);
+                    _connectEvent.onFailed(msg);
                 } else {
-//                    if (_peerHelper != null) {
-//                        _peerHelper.exitRoom();
-//                    }
+                    if (_peerHelper != null) {
+                        _peerHelper.exitRoom();
+                    }
                 }
             }
         });
