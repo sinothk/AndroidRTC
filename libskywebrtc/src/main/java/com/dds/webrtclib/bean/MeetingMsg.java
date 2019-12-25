@@ -9,24 +9,33 @@ package com.dds.webrtclib.bean;
  * <pre>
  */
 public class MeetingMsg{
-    /**
-     * eventName : NOTICE
-     * serverFunc : sayHello
-     * clientFunc : retHello
-     * sendId : phone.value
-     * targetIds : targetIds.value
-     * data : {"msg":"message"}
-     */
-
+    //        {
+//            "eventName":"NOTICE",
+//                "serverFunc":"sayHello",
+//                "clientFunc":"retHello",
+//                "sendId":"tmp1351400047",
+//                "sendName":"临时用户1351400047",
+//                "chatType":"MEETING",
+//                "msgType":"MEET_REQUEST",
+//                "targetIds":"15285536455",
+//                "data":{
+//            "received":false,
+//                    "msg":"",
+//                    "roomId":"1576922050"
+//        }
+//        }
     private String eventName;
     private String serverFunc;
     private String clientFunc;
 
     private String eventId;
-    private MsgType msgType; //
+
     private String sendId;
-    private String targetIds;
+    private String sendName;
+
+    private MsgType msgType; //
     private ChatType chatType;
+    private String targetIds;
     private MeetingContent data;
 
     public String getEventName() {
@@ -99,5 +108,13 @@ public class MeetingMsg{
 
     public void setChatType(ChatType chatType) {
         this.chatType = chatType;
+    }
+
+    public String getSendName() {
+        return sendName;
+    }
+
+    public void setSendName(String sendName) {
+        this.sendName = sendName;
     }
 }
