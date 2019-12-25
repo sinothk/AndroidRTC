@@ -52,6 +52,10 @@ public class RtcHelper implements ISignalingEvents {
         rtcHelper.connect();
     }
 
+    public boolean isConnect() {
+        return _webSocket != null && _webSocket.isOpen();
+    }
+
     // connect
     private void connect() {
 
