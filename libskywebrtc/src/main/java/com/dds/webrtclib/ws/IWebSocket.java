@@ -20,6 +20,9 @@ public interface IWebSocket {
     // 加入房间
     void joinRoom(String room);
 
+    // 退出房间
+    void exitRoom();
+
     //处理回调消息
     void handleMessage(String message);
 

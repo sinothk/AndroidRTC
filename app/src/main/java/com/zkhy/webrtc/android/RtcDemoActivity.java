@@ -41,30 +41,44 @@ public class RtcDemoActivity extends AppCompatActivity implements IViewCallback 
             RtcRoomActivity.openActivity(RtcDemoActivity.this, roomNum);
         });
 
+//        RtcHelper.getInstance().setCallback(this);
+    }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == 200) {
+//            RtcApp.initRtc();
+//        }
+//    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         RtcHelper.getInstance().setCallback(this);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 200) {
-            RtcApp.initRtc();
+    public void onSetLocalStream(MediaStream stream, String socketId) {
+        if (stream == null) {
+
         }
     }
 
     @Override
-    public void onSetLocalStream(MediaStream stream, String socketId) {
-
-    }
-
-    @Override
     public void onAddRemoteStream(MediaStream stream, String socketId) {
+        if (stream == null) {
 
+        }
     }
 
     @Override
     public void onCloseWithId(String socketId) {
+        if (socketId == null) {
 
+        }
     }
 
     @Override

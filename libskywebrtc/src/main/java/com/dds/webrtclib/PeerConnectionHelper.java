@@ -373,17 +373,62 @@ public class PeerConnectionHelper {
 
     }
 
+//    // 退出房间
+//    public void exitRoom() {
+//        executor.execute(() -> {
+//
+//            ArrayList myCopy = (ArrayList) _connectionIdArray.clone();
+//            for (Object Id : myCopy) {
+//                closePeerConnection((String) Id);
+//            }
+//            if (_connectionIdArray != null) {
+//                _connectionIdArray.clear();
+//            }
+//            if (audioSource != null) {
+//                audioSource.dispose();
+//                audioSource = null;
+//            }
+//
+//            if (videoSource != null) {
+//                videoSource.dispose();
+//                videoSource = null;
+//            }
+//
+//            if (captureAndroid != null) {
+//                try {
+//                    captureAndroid.stopCapture();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                captureAndroid.dispose();
+//                captureAndroid = null;
+//            }
+//            if (surfaceTextureHelper != null) {
+//                surfaceTextureHelper.dispose();
+//                surfaceTextureHelper = null;
+//            }
+//            if (_factory != null) {
+//                _factory.dispose();
+//                _factory = null;
+//            }
+//
+////            if (_webSocket != null) {
+////                _webSocket.close();
+////                _webSocket = null;
+////            }
+//
+//            if (_webSocket != null) {
+//                _webSocket.exitRoom();
+////                _webSocket = null;
+//            }
+//        });
+//    }
+
     // 退出房间
     public void exitRoom() {
-//        if (viewCallback != null) {
-//            viewCallback = null;
-//        }
-
         executor.execute(() -> {
 
-            ArrayList myCopy;
-            myCopy = (ArrayList) _connectionIdArray.clone();
-
+            ArrayList myCopy = (ArrayList) _connectionIdArray.clone();
             for (Object Id : myCopy) {
                 closePeerConnection((String) Id);
             }
@@ -418,9 +463,14 @@ public class PeerConnectionHelper {
                 _factory = null;
             }
 
+//            if (_webSocket != null) {
+//                _webSocket.close();
+//                _webSocket = null;
+//            }
+
             if (_webSocket != null) {
-                _webSocket.close();
-                _webSocket = null;
+                _webSocket.exitRoom();
+//                _webSocket = null;
             }
         });
     }

@@ -233,6 +233,23 @@ public class JavaWebSocket implements IWebSocket {
         mWebSocketClient.send(jsonString);
     }
 
+    @Override
+    public void exitRoom() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("eventName", "__exitHall");
+
+        Map<String, String> childMap = new HashMap<>();
+        map.put("data", childMap);
+
+        JSONObject object = new JSONObject(map);
+        final String jsonString = object.toString();
+
+        Log.d(TAG, "send-->" + jsonString);
+        if (mWebSocketClient != null) {
+            mWebSocketClient.send(jsonString);
+        }
+    }
+
     public void sendAnswer(String socketId, String sdp) {
         Map<String, Object> childMap1 = new HashMap();
         childMap1.put("type", "answer");

@@ -19,9 +19,9 @@ public class RtcApp extends Application {
 
     public static void initRtc() {
 
-//        String serverUrl = "ws://192.168.1.124:3000";
+        String serverUrl = "ws://192.168.1.124:3000";
 
-        String serverUrl = "wss://112.74.58.200/wss";
+//        String serverUrl = "wss://112.74.58.200/wss";
 //        String serverUrl = "wss://192.168.1.124/wss";
 
         RtcHelper.init(serverUrl, iceServers, new IConnectEvent() {

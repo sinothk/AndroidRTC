@@ -87,7 +87,7 @@ public class RtcHelper implements ISignalingEvents {
 
     public void exitRoom() {
         if (_peerHelper != null) {
-            _webSocket = null;
+//            _webSocket = null;
             _peerHelper.exitRoom();
         }
     }
