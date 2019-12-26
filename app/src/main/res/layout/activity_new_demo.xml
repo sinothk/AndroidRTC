@@ -35,14 +35,6 @@
                     android:layout_weight="3"
                     android:text="创建房间"
                     android:textColor="@color/colorPrimary" />
-
-                <Button
-                    android:id="@+id/exitRoomBtn"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:text="退出房间"
-                    android:textColor="@color/colorPrimary" />
             </LinearLayout>
 
             <LinearLayout
