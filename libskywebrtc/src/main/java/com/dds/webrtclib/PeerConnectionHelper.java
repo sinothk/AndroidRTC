@@ -138,17 +138,21 @@ public class PeerConnectionHelper {
     }
 
     public void onJoinToRoom(ArrayList<String> connections, String myId, boolean isVideoEnable, int mediaType) {
+
         videoEnable = isVideoEnable;
         _mediaType = mediaType;
+
         executor.execute(() -> {
             _connectionIdArray.addAll(connections);
             _myId = myId;
             if (_factory == null) {
                 _factory = createConnectionFactory();
             }
-            if (_localStream == null) {
-                createLocalStream();
-            }
+//            if (_localStream == null) {
+//
+//            }
+            _localStream = null;
+            createLocalStream();
 
             createPeerConnections();
             addStreams();
@@ -248,6 +252,7 @@ public class PeerConnectionHelper {
     }
 
     private PeerConnectionFactory createConnectionFactory() {
+
         PeerConnectionFactory.initialize(
                 PeerConnectionFactory.InitializationOptions.builder(_context)
                         .createInitializationOptions());

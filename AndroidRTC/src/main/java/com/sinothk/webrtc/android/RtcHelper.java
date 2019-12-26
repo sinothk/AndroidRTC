@@ -75,7 +75,6 @@ public class RtcHelper implements ISignalingEvents {
         _mediaType = MediaType.TYPE_MEETING;
         _videoEnable = true;
 
-
         if (_peerHelper != null) {
             _peerHelper.initContext(context, eglBase);
         }

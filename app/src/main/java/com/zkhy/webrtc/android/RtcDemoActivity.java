@@ -89,7 +89,9 @@ public class RtcDemoActivity extends AppCompatActivity implements IViewCallback 
                     .setMessage("邀请你加入会议").setPositiveButton("接受", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+
                     RtcRoomActivity.openActivity(RtcDemoActivity.this, msg.getData().getRoomId());
+
                 }
             }).setNegativeButton("拒接", new DialogInterface.OnClickListener() {
                 @Override
