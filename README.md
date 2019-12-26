@@ -15,5 +15,5 @@ AndroidRTC 基于WebRTC
 
 # Step 2. Add the dependency
     dependencies {
-            implementation 'com.github.sinothk.AndroidRTC:AndroidRTC:2.0.0722'
+            implementation 'com.github.sinothk.AndroidRTC:AndroidRTC:3.x.1230'
     }
