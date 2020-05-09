@@ -1,9 +1,10 @@
 package com.zkhy.webrtc.android;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Created by dds on 2018/11/7.

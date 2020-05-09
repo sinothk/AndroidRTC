@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.dds.webrtclib.R;
 import com.dds.webrtclib.bean.MeetingUserEntity;
-import com.dds.webrtclib.glide.CropCircleTransformation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +77,7 @@ public class MeetingUserAdapter extends BaseAdapter {
 
         if (userEntity.getUserPhoto() != null && userEntity.getUserPhoto().length() > 0) {
             Glide.with(context).load(userEntity.getUserPhoto())
-                    .bitmapTransform(new CropCircleTransformation(context))
+//                    .bitmapTransform(new CropCircleTransformation(context))
                     .into(holder.itemImage);
         } else {
             holder.itemImage.setImageResource(R.drawable.person);

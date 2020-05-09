@@ -16,7 +16,9 @@ import android.media.audiofx.AudioEffect.Descriptor;
 import android.media.audiofx.AutomaticGainControl;
 import android.media.audiofx.NoiseSuppressor;
 import android.os.Build;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
+
 import java.util.List;
 import java.util.UUID;
 import org.webrtc.Logging;
@@ -40,7 +42,8 @@ public class WebRtcAudioEffects {
   // Contains the available effect descriptors returned from the
   // AudioEffect.getEffects() call. This result is cached to avoid doing the
   // slow OS call multiple times.
-  private static @Nullable Descriptor[] cachedEffects;
+  private static @Nullable
+  Descriptor[] cachedEffects;
 
   // Contains the audio effect objects. Created in enable() and destroyed
   // in release().

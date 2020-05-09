@@ -2,13 +2,12 @@ package com.zkhy.webrtc.android;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.dds.webrtclib.IViewCallback;
 import com.dds.webrtclib.bean.MeetingMsg;

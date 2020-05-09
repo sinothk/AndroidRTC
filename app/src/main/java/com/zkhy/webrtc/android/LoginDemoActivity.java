@@ -2,10 +2,11 @@ package com.zkhy.webrtc.android;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.dds.webrtclib.WebRTCManager;
 import com.dds.webrtclib.bean.Constant;
